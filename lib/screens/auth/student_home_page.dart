@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import '../student/student_documents_page.dart';
-import '../student/student_document_request_page.dart';
-import '../student/student_profile_page.dart';
-import '../student/student_notifications_page.dart';
-import '../student/student_search_page.dart';
+import 'package:flutter_application_1/screens/student/student_notifications_page.dart';
+import 'package:flutter_application_1/screens/student/student_search_page.dart';
+import 'package:flutter_application_1/screens/student/student_document_request_page.dart';
+import 'package:flutter_application_1/screens/student/student_profile_page.dart';
+import 'package:flutter_application_1/screens/student/student_documents_page.dart';
+import 'package:flutter_application_1/theme.dart';
+import 'package:flutter_application_1/widgets/home_button.dart';
 
 class StudentHomePage extends StatelessWidget {
   final Map<String, String>? currentUser; // <-- renommé pour uniformité
@@ -25,11 +27,10 @@ class StudentHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color turquoise = Color(0xFF24B6AA);
-    const Color cardBg = Colors.white;
+    const Color cardBg = whiteColor;
 
     return Scaffold(
-      backgroundColor: turquoise,
+      backgroundColor: primaryColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -41,7 +42,7 @@ class StudentHomePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(28),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black12,
+                    color: blackColor.withOpacity(0.12),
                     blurRadius: 3,
                     offset: const Offset(0, 1),
                   )
@@ -53,13 +54,13 @@ class StudentHomePage extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.menu, color: Colors.black, size: 28),
+                        const Icon(Icons.menu, color: blackColor, size: 28),
                         Expanded(
                           child: Center(
                             child: Text(
                               "Accueil Étudiant",
                               style: const TextStyle(
-                                color: Colors.black,
+                                color: blackColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
                                 letterSpacing: 1.1,
@@ -69,7 +70,7 @@ class StudentHomePage extends StatelessWidget {
                         ),
                         IconButton(
                           icon: const Icon(Icons.notifications,
-                              color: turquoise, size: 28),
+                              color: primaryColor, size: 28),
                           onPressed: onNotificationPressed ??
                               () {
                                 Navigator.push(
@@ -86,18 +87,18 @@ class StudentHomePage extends StatelessWidget {
                     const SizedBox(height: 8),
                     Stack(
                       children: [
-                        Container(height: 2, width: double.infinity, color: turquoise),
+                        Container(height: 2, width: double.infinity, color: primaryColor),
                         Positioned(
                           right: 0,
                           child: Row(
                             children: const [
-                              Icon(Icons.diamond, color: turquoise, size: 17),
+                              Icon(Icons.diamond, color: primaryColor, size: 17),
                               SizedBox(width: 2),
                               Text(
                                 "icon",
                                 style: TextStyle(
                                   fontSize: 10,
-                                  color: turquoise,
+                                  color: primaryColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -119,8 +120,8 @@ class StudentHomePage extends StatelessWidget {
                           },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.black12, width: 1.2),
+                          color: whiteColor,
+                          border: Border.all(color: blackColor.withOpacity(0.12), width: 1.2),
                           borderRadius: BorderRadius.circular(22),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
@@ -133,11 +134,11 @@ class StudentHomePage extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1,
                                   fontSize: 15,
-                                  color: Colors.black54,
+                                  color: blackColor.withOpacity(0.54),
                                 ),
                               ),
                             ),
-                            const Icon(Icons.search, color: turquoise, size: 24),
+                            const Icon(Icons.search, color: primaryColor, size: 24),
                           ],
                         ),
                       ),
@@ -159,7 +160,7 @@ class StudentHomePage extends StatelessWidget {
                   childAspectRatio: 0.9,
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    _HomeButton(
+                    HomeButton(
                       image: 'assets/doc.png',
                       label: "Demande de document",
                       imageHeight: 70,
@@ -173,7 +174,7 @@ class StudentHomePage extends StatelessWidget {
                         );
                       },
                     ),
-                    _HomeButton(
+                    HomeButton(
                       image: 'assets/2.png',
                       label: "Profil étudiant",
                       imageHeight: 70,
@@ -186,7 +187,7 @@ class StudentHomePage extends StatelessWidget {
                         );
                       },
                     ),
-                    _HomeButton(
+                    HomeButton(
                       image: 'assets/folder.png',
                       label: "Mes documents",
                       imageHeight: 100,
@@ -203,57 +204,8 @@ class StudentHomePage extends StatelessWidget {
                 ),
               ),
             ),
-            Container(height: 30, color: turquoise),
+            Container(height: 30, color: primaryColor),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _HomeButton extends StatelessWidget {
-  final String image;
-  final String label;
-  final VoidCallback onTap;
-  final double imageHeight;
-
-  const _HomeButton({
-    required this.image,
-    required this.label,
-    required this.onTap,
-    this.imageHeight = 52,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: Colors.grey.shade200, width: 1.2),
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(image, height: imageHeight),
-              const SizedBox(height: 10),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

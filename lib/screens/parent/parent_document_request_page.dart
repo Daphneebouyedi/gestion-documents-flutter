@@ -1,21 +1,20 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_application_1/theme.dart';
 
 class ParentDocumentRequestPage extends StatelessWidget {
   const ParentDocumentRequestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const Color primary = Color(0xFF24B6AA);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: whiteColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
-          backgroundColor: primary,
+          backgroundColor: primaryColor,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: whiteColor),
             onPressed: () {
               Navigator.of(context).pushReplacementNamed('/parent/home');
             },
@@ -23,7 +22,7 @@ class ParentDocumentRequestPage extends StatelessWidget {
           title: Text(
             "Demande de document",
             style: TextStyle(
-              color: Colors.white,
+              color: whiteColor,
               fontWeight: FontWeight.bold,
               fontSize: 19,
             ),
@@ -41,7 +40,7 @@ class ParentDocumentRequestPage extends StatelessWidget {
             DropdownButtonFormField<String>(
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.grey.shade100,
+                fillColor: lightGray,
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
               ),
               initialValue: "Attestation de scolarité",
@@ -59,7 +58,7 @@ class ParentDocumentRequestPage extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: "Lucie Durund",
                 filled: true,
-                fillColor: Colors.grey.shade100,
+                fillColor: lightGray,
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                 contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
               ),
@@ -71,7 +70,7 @@ class ParentDocumentRequestPage extends StatelessWidget {
               maxLines: 3,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.grey.shade100,
+                fillColor: lightGray,
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                 contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
               ),
@@ -82,11 +81,11 @@ class ParentDocumentRequestPage extends StatelessWidget {
               height: 44,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: primary,
+                  backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 onPressed: () {},
-                child: Text("Envoyer", style: TextStyle(fontSize: 18, color: Colors.white)),
+                child: Text("Envoyer", style: TextStyle(fontSize: 18, color: whiteColor)),
               ),
             ),
           ],

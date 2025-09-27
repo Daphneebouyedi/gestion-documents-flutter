@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/test_users.dart'; // Importer les utilisateurs
-// ⚡ La simulation des utilisateurs est maintenant dans /lib/data/test_users.dart
+import 'package:flutter_application_1/theme.dart';
 
 class StudentLoginPage extends StatefulWidget {
   const StudentLoginPage({super.key});
@@ -57,19 +55,18 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    const turquoise = Color(0xFF24B6AA);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: whiteColor,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(58),
         child: AppBar(
-          backgroundColor: turquoise,
+          backgroundColor: primaryColor,
           elevation: 0,
           title: const Text(
             "Connexion",
             style: TextStyle(
-              color: Colors.white,
+              color: whiteColor,
               fontWeight: FontWeight.bold,
               fontSize: 19,
               letterSpacing: 1,
@@ -84,11 +81,11 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
             margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: whiteColor,
               borderRadius: BorderRadius.circular(18),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.shade200,
+                  color: lightGray,
                   blurRadius: 6,
                   offset: const Offset(0, 3),
                 ),
@@ -101,7 +98,7 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                 children: [
                   Center(
                     child: Image.asset(
-                      'assets/images/logo.png',
+                      'assets/Ynov.png',
                       height: 100,
                     ),
                   ),
@@ -116,7 +113,7 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                     decoration: InputDecoration(
                       hintText: "Votre username",
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor: lightGray,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
@@ -140,7 +137,7 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                     decoration: InputDecoration(
                       hintText: "Mot de Passe",
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor: lightGray,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
@@ -157,7 +154,7 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                     alignment: Alignment.centerRight,
                     child: Text(
                       "Mot de passe oublié ?",
-                      style: TextStyle(fontSize: 13, color: Colors.black87),
+                      style: TextStyle(fontSize: 13, color: blackColor.withOpacity(0.87)),
                     ),
                   ),
                   if (errorMessage != null)
@@ -165,7 +162,7 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                       padding: const EdgeInsets.only(top: 12),
                       child: Text(
                         errorMessage!,
-                        style: const TextStyle(color: Colors.red),
+                        style: const TextStyle(color: errorColor),
                       ),
                     ),
                   const SizedBox(height: 22),
@@ -174,7 +171,7 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                     height: 44,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: turquoise,
+                        backgroundColor: primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -182,7 +179,7 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                       onPressed: _login,
                       child: const Text(
                         "Se connecter",
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+                        style: TextStyle(fontSize: 18, color: whiteColor),
                       ),
                     ),
                   ),

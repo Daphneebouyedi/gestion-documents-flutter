@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_application_1/theme.dart';
 
 class ParentDocumentViewPage extends StatelessWidget {
   const ParentDocumentViewPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const turquoise = Color(0xFF24B6AA);
 
     return Scaffold(
       appBar: AppBar(
@@ -13,10 +12,10 @@ class ParentDocumentViewPage extends StatelessWidget {
           "Visualisation du PDF",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: turquoise,
+        backgroundColor: primaryColor,
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: whiteColor),
           onPressed: () {
             Navigator.of(context).pushReplacementNamed('/parent/documents');
           },
@@ -27,20 +26,20 @@ class ParentDocumentViewPage extends StatelessWidget {
           width: 200,
           height: 200,
           decoration: BoxDecoration(
-            color: Colors.blue.shade50,
+            color: lightGray,
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: turquoise, width: 1.2),
+            border: Border.all(color: primaryColor, width: 1.2),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              Icon(Icons.picture_as_pdf, color: turquoise, size: 64),
+              Icon(Icons.picture_as_pdf, color: primaryColor, size: 64),
               SizedBox(height: 12),
               Text(
                 "PDF exemple",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: turquoise,
+                  color: primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),

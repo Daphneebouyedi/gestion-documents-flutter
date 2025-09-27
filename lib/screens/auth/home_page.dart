@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import '../parent/parent_documents_page.dart';
-import '../parent/parent_profile_page.dart';
-import '../parent/parent_document_request_page.dart';
-import '../parent/parent_notifications_page.dart';
-import '../parent/parent_search_page.dart';
+import 'package:flutter_application_1/screens/parent/parent_notifications_page.dart';
+import 'package:flutter_application_1/screens/parent/parent_search_page.dart';
+import 'package:flutter_application_1/screens/parent/parent_document_request_page.dart';
+import 'package:flutter_application_1/screens/parent/parent_profile_page.dart';
+import 'package:flutter_application_1/screens/parent/parent_documents_page.dart';
+import 'package:flutter_application_1/theme.dart';
+import 'package:flutter_application_1/widgets/home_button.dart';
 
 class HomePage extends StatelessWidget {
   final Map<String, String>? currentUserData; // username, email...
@@ -11,11 +13,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color turquoise = Color(0xFF24B6AA);
-    const Color cardBg = Colors.white;
+    const Color cardBg = whiteColor;
 
     return Scaffold(
-      backgroundColor: turquoise,
+      backgroundColor: primaryColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -27,7 +28,7 @@ class HomePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(28),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black12,
+                    color: blackColor.withOpacity(0.12),
                     blurRadius: 3,
                     offset: const Offset(0, 1),
                   ),
@@ -74,7 +75,7 @@ class HomePage extends StatelessWidget {
                         // Notifications
                         IconButton(
                           icon: const Icon(Icons.notifications,
-                              color: turquoise, size: 28),
+                              color: primaryColor, size: 28),
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -101,7 +102,7 @@ class HomePage extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           color: cardBg,
-                          border: Border.all(color: Colors.black12, width: 1.2),
+                          border: Border.all(color: blackColor.withOpacity(0.12), width: 1.2),
                           borderRadius: BorderRadius.circular(22),
                         ),
                         padding:
@@ -115,11 +116,11 @@ class HomePage extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1,
                                   fontSize: 15,
-                                  color: Colors.black54,
+                                  color: blackColor.withOpacity(0.54),
                                 ),
                               ),
                             ),
-                            Icon(Icons.search, color: turquoise, size: 24),
+                            Icon(Icons.search, color: primaryColor, size: 24),
                           ],
                         ),
                       ),
@@ -142,7 +143,7 @@ class HomePage extends StatelessWidget {
                   childAspectRatio: 0.9,
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    _HomeButton(
+                    HomeButton(
                       image: 'assets/doc.png',
                       label: "Demande de document",
                       imageHeight: 70,
@@ -155,7 +156,7 @@ class HomePage extends StatelessWidget {
                         );
                       },
                     ),
-                    _HomeButton(
+                    HomeButton(
                       image: 'assets/2.png',
                       label: "Profil étudiant",
                       imageHeight: 70,
@@ -168,7 +169,7 @@ class HomePage extends StatelessWidget {
                         );
                       },
                     ),
-                    _HomeButton(
+                    HomeButton(
                       image: 'assets/folder.png',
                       label: "Mes documents",
                       imageHeight: 100,
@@ -181,7 +182,7 @@ class HomePage extends StatelessWidget {
                         );
                       },
                     ),
-                    _HomeButton(
+                    HomeButton(
                       image: 'assets/payment.png',
                       label: "Suivi Paiement",
                       imageHeight: 70,
@@ -194,57 +195,8 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            Container(height: 30, color: turquoise),
+            Container(height: 30, color: primaryColor),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _HomeButton extends StatelessWidget {
-  final String image;
-  final String label;
-  final VoidCallback onTap;
-  final double imageHeight;
-
-  const _HomeButton({
-    required this.image,
-    required this.label,
-    required this.onTap,
-    this.imageHeight = 52,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: Colors.grey.shade200, width: 1.2),
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(image, height: imageHeight),
-              const SizedBox(height: 10),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
