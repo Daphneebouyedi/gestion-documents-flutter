@@ -4,7 +4,7 @@ import 'package:flutter_application_1/screens/parent/parent_search_page.dart';
 import 'package:flutter_application_1/screens/parent/parent_document_request_page.dart';
 import 'package:flutter_application_1/screens/parent/parent_profile_page.dart';
 import 'package:flutter_application_1/screens/parent/parent_documents_page.dart';
-import 'package:flutter_application_1/theme.dart';
+import 'package:flutter_application_1/theme.dart'; // Re-added theme import
 import 'package:flutter_application_1/widgets/home_button.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,10 +13,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color cardBg = whiteColor;
+    final Color cardBg = whiteColor;
 
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: primaryColor, // Reverted to primaryColor
       body: SafeArea(
         child: Column(
           children: [
@@ -24,11 +24,11 @@ class HomePage extends StatelessWidget {
             Container(
               margin: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: cardBg,
+                color: whiteColor, // Reverted to whiteColor
                 borderRadius: BorderRadius.circular(28),
                 boxShadow: [
                   BoxShadow(
-                    color: blackColor.withOpacity(0.12),
+                    color: blackColor.withOpacity(0.12), // Reverted to blackColor
                     blurRadius: 3,
                     offset: const Offset(0, 1),
                   ),
@@ -56,18 +56,24 @@ class HomePage extends StatelessWidget {
                                     ? currentUserData!['username'] ?? 'Parent'
                                     : "Lambert Poulin",
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: blackColor), // Reverted to blackColor
                               ),
                               Text(
                                 currentUserData != null
                                     ? "${currentUserData!['email'] ?? 'parent@example.com'}"
                                     : "jcoandelafuente@gmail.com",
                                 style: const TextStyle(
-                                    fontSize: 12, fontStyle: FontStyle.italic),
+                                    fontSize: 12,
+                                    fontStyle: FontStyle.italic,
+                                    color: blackColor), // Reverted to blackColor
                               ),
                               const Text(
                                 "Parent",
-                                style: TextStyle(fontSize: 12),
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: blackColor), // Reverted to blackColor
                               ),
                             ],
                           ),
@@ -75,7 +81,7 @@ class HomePage extends StatelessWidget {
                         // Notifications
                         IconButton(
                           icon: const Icon(Icons.notifications,
-                              color: primaryColor, size: 28),
+                              color: primaryColor, size: 28), // Reverted to primaryColor
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -101,14 +107,16 @@ class HomePage extends StatelessWidget {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: cardBg,
-                          border: Border.all(color: blackColor.withOpacity(0.12), width: 1.2),
+                          color: whiteColor, // Reverted to whiteColor
+                          border: Border.all(
+                              color: lightGray,
+                              width: 1.2), // Reverted to lightGray
                           borderRadius: BorderRadius.circular(22),
                         ),
                         padding:
                             const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
                         child: Row(
-                          children: const [
+                          children: [
                             Expanded(
                               child: Text(
                                 "Rechercher un document",
@@ -116,11 +124,12 @@ class HomePage extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1,
                                   fontSize: 15,
-                                  color: blackColor.withOpacity(0.54),
+                                  color: mediumGray, // Reverted to mediumGray
                                 ),
                               ),
                             ),
-                            Icon(Icons.search, color: primaryColor, size: 24),
+                            Icon(Icons.search,
+                                color: primaryColor, size: 24), // Reverted to primaryColor
                           ],
                         ),
                       ),
@@ -144,7 +153,7 @@ class HomePage extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   children: [
                     HomeButton(
-                      image: 'assets/doc.png',
+                      image: 'assets/demande_documents.png',
                       label: "Demande de document",
                       imageHeight: 70,
                       onTap: () {
@@ -157,7 +166,7 @@ class HomePage extends StatelessWidget {
                       },
                     ),
                     HomeButton(
-                      image: 'assets/2.png',
+                      image: 'assets/profil_etudiant.png',
                       label: "Profil étudiant",
                       imageHeight: 70,
                       onTap: () {
@@ -170,7 +179,7 @@ class HomePage extends StatelessWidget {
                       },
                     ),
                     HomeButton(
-                      image: 'assets/folder.png',
+                      image: 'assets/mes_documents.png',
                       label: "Mes documents",
                       imageHeight: 100,
                       onTap: () {
@@ -183,7 +192,7 @@ class HomePage extends StatelessWidget {
                       },
                     ),
                     HomeButton(
-                      image: 'assets/payment.png',
+                      image: 'assets/historiques.png',
                       label: "Suivi Paiement",
                       imageHeight: 70,
                       onTap: () {
@@ -195,7 +204,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            Container(height: 30, color: primaryColor),
+            Container(height: 30, color: primaryColor), // Reverted to primaryColor
           ],
         ),
       ),

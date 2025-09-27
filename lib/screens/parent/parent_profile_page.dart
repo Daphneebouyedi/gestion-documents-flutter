@@ -48,7 +48,7 @@ class ParentProfilePage extends StatelessWidget {
                 // Photo profil ronde
                 const CircleAvatar(
                   radius: 54,
-                  backgroundImage: AssetImage('assets/profile_pic.jpg'),
+                  backgroundImage: AssetImage('assets/avatar.jpg'),
                   backgroundColor: Colors.grey,
                 ),
                 const SizedBox(height: 16),

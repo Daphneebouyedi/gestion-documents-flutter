@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/test_users.dart';
 import 'package:flutter_application_1/theme.dart';
 
 class StudentLoginPage extends StatefulWidget {
@@ -56,139 +58,126 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      backgroundColor: whiteColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(58),
-        child: AppBar(
-          backgroundColor: primaryColor,
-          elevation: 0,
-          title: const Text(
-            "Connexion",
-            style: TextStyle(
-              color: whiteColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 19,
-              letterSpacing: 1,
-            ),
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            'assets/Etudiants.png', // Your background image
+            fit: BoxFit.cover,
           ),
-          centerTitle: true,
         ),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-            decoration: BoxDecoration(
-              color: whiteColor,
-              borderRadius: BorderRadius.circular(18),
-              boxShadow: [
-                BoxShadow(
-                  color: lightGray,
-                  blurRadius: 6,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Image.asset(
-                      'assets/Ynov.png',
-                      height: 100,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Username",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  const SizedBox(height: 6),
-                  TextFormField(
-                    controller: _usernameController,
-                    decoration: InputDecoration(
-                      hintText: "Votre username",
-                      filled: true,
-                      fillColor: lightGray,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
-                    ),
-                    validator: (value) => (value == null || value.isEmpty)
-                        ? "Veuillez entrer votre username"
-                        : null,
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    "Mot de passe",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  const SizedBox(height: 6),
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      hintText: "Mot de Passe",
-                      filled: true,
-                      fillColor: lightGray,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
-                    ),
-                    validator: (value) => (value == null || value.isEmpty)
-                        ? "Veuillez entrer votre mot de passe"
-                        : null,
-                  ),
-                  const SizedBox(height: 8),
-                  const Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "Mot de passe oublié ?",
-                      style: TextStyle(fontSize: 13, color: blackColor.withOpacity(0.87)),
-                    ),
-                  ),
-                  if (errorMessage != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12),
+        Scaffold(
+          backgroundColor: Colors.transparent, // Make Scaffold background transparent
+          body: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24), // Moved padding here
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 100), // Added to push content down
+                    Center(
                       child: Text(
-                        errorMessage!,
-                        style: const TextStyle(color: errorColor),
-                      ),
-                    ),
-                  const SizedBox(height: 22),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 44,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                        "Connexion",
+                        style: TextStyle(
+                          color: whiteColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 32, // Increased font size for prominence
+                          letterSpacing: 1,
                         ),
                       ),
-                      onPressed: _login,
-                      child: const Text(
-                        "Se connecter",
-                        style: TextStyle(fontSize: 18, color: whiteColor),
+                    ),
+                    const SizedBox(height: 40), // Spacing after title
+                    Text(
+                      "Username",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: whiteColor), // Changed text color
+                    ),
+                    const SizedBox(height: 6),
+                    TextFormField(
+                      controller: _usernameController,
+                      style: TextStyle(color: whiteColor), // Text color white
+                      decoration: InputDecoration(
+                        hintText: "Votre username",
+                        filled: true,
+                        fillColor: blackColor.withOpacity(0.4), // Darkened transparent black
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+                      ),
+                      validator: (value) => (value == null || value.isEmpty)
+                          ? "Veuillez entrer votre username"
+                          : null,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      "Mot de passe",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: whiteColor), // Changed text color
+                    ),
+                    const SizedBox(height: 6),
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      style: TextStyle(color: whiteColor), // Text color white
+                      decoration: InputDecoration(
+                        hintText: "Mot de Passe",
+                        filled: true,
+                        fillColor: blackColor.withOpacity(0.4), // Darkened transparent black
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+                      ),
+                      validator: (value) => (value == null || value.isEmpty)
+                          ? "Veuillez entrer votre mot de passe"
+                          : null,
+                    ),
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "Mot de passe oublié ?",
+                        style: TextStyle(fontSize: 13, color: whiteColor), // Changed text color
                       ),
                     ),
-                  ),
-                ],
+                    if (errorMessage != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: Text(
+                          errorMessage!,
+                          style: const TextStyle(color: errorColor),
+                        ),
+                      ),
+                    const SizedBox(height: 22),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 44,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: whiteColor, // Changed to whiteColor
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: _login,
+                        child: const Text(
+                          "Se connecter",
+                          style: TextStyle(fontSize: 18, color: blackColor), // Changed to blackColor
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

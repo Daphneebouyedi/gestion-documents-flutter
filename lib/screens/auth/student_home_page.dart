@@ -1,145 +1,151 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/student/student_notifications_page.dart';
-import 'package:flutter_application_1/screens/student/student_search_page.dart';
-import 'package:flutter_application_1/screens/student/student_document_request_page.dart';
-import 'package:flutter_application_1/screens/student/student_profile_page.dart';
-import 'package:flutter_application_1/screens/student/student_documents_page.dart';
 import 'package:flutter_application_1/theme.dart';
-import 'package:flutter_application_1/widgets/home_button.dart';
+import 'package:flutter_application_1/screens/student/student_document_request_page.dart';
+import 'package:flutter_application_1/screens/student/student_documents_page.dart';
+import 'package:flutter_application_1/screens/student/student_notifications_page.dart';
+import 'package:flutter_application_1/screens/student/student_profile_page.dart';
+import 'package:flutter_application_1/screens/student/student_search_page.dart';
 
 class StudentHomePage extends StatelessWidget {
-  final Map<String, String>? currentUser; // <-- renommé pour uniformité
-  final VoidCallback? onNavigateRequest;
-  final VoidCallback? onNavigateDocuments;
-  final VoidCallback? onNavigateProfile;
-  final VoidCallback? onNotificationPressed;
-  final VoidCallback? onSearchPressed;
+  final Map<String, String>? currentUser;
 
-  const StudentHomePage({
-    this.currentUser,
-    this.onNavigateRequest,
-    this.onNavigateDocuments,
-    this.onNavigateProfile,
-    this.onNotificationPressed,
-    this.onSearchPressed,
-    Key? key,
-  }) : super(key: key);
+  const StudentHomePage({this.currentUser, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const Color cardBg = whiteColor;
-
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- Header et barre de recherche ---
-            Container(
-              margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
-              decoration: BoxDecoration(
-                color: cardBg,
-                borderRadius: BorderRadius.circular(28),
-                boxShadow: [
-                  BoxShadow(
-                    color: blackColor.withOpacity(0.12),
-                    blurRadius: 3,
-                    offset: const Offset(0, 1),
-                  )
+            // HEADER
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              child: Row(
+                children: [
+                  const Icon(Icons.menu, color: whiteColor, size: 28),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      "Accueil Étudiant",
+                      style: const TextStyle(
+                        color: whiteColor,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.notifications_none,
+                        color: whiteColor, size: 28),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const StudentNotificationsPage(),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(12, 10, 12, 16),
-                child: Column(
+            ),
+
+            // APERÇU / STATISTIQUES
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: whiteColor,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: primaryColor,
+                    ),
+                    child: const Icon(Icons.school,
+                        color: whiteColor, size: 32),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Bonjour, ${currentUser?['name'] ?? 'Étudiant'}",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: blackColor,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "2 demandes en cours • 5 documents",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: blackColor.withOpacity(0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // BARRE DE RECHERCHE
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const StudentSearchPage(),
+                  ),
+                );
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
                   children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.menu, color: blackColor, size: 28),
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              "Accueil Étudiant",
-                              style: const TextStyle(
-                                color: blackColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                letterSpacing: 1.1,
-                              ),
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.notifications,
-                              color: primaryColor, size: 28),
-                          onPressed: onNotificationPressed ??
-                              () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const StudentNotificationsPage(),
-                                  ),
-                                );
-                              },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Stack(
-                      children: [
-                        Container(height: 2, width: double.infinity, color: primaryColor),
-                        Positioned(
-                          right: 0,
-                          child: Row(
-                            children: const [
-                              Icon(Icons.diamond, color: primaryColor, size: 17),
-                              SizedBox(width: 2),
-                              Text(
-                                "icon",
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 17),
-                    GestureDetector(
-                      onTap: onSearchPressed ??
-                          () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const StudentSearchPage(),
-                              ),
-                            );
-                          },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          border: Border.all(color: blackColor.withOpacity(0.12), width: 1.2),
-                          borderRadius: BorderRadius.circular(22),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
-                        child: Row(
-                          children: [
-                            const Expanded(
-                              child: Text(
-                                "Rechercher un document",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1,
-                                  fontSize: 15,
-                                  color: blackColor.withOpacity(0.54),
-                                ),
-                              ),
-                            ),
-                            const Icon(Icons.search, color: primaryColor, size: 24),
-                          ],
+                    const Icon(Icons.search, color: primaryColor, size: 24),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        "Rechercher un document",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: blackColor.withOpacity(0.5),
                         ),
                       ),
                     ),
@@ -147,12 +153,20 @@ class StudentHomePage extends StatelessWidget {
                 ),
               ),
             ),
+
             const SizedBox(height: 24),
 
-            // --- Les Cards ---
+            // ACTIONS RAPIDES / CARTES
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                decoration: const BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(32),
+                    topRight: Radius.circular(32),
+                  ),
+                ),
                 child: GridView.count(
                   crossAxisCount: 2,
                   mainAxisSpacing: 20,
@@ -160,10 +174,10 @@ class StudentHomePage extends StatelessWidget {
                   childAspectRatio: 0.9,
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    HomeButton(
-                      image: 'assets/doc.png',
-                      label: "Demande de document",
-                      imageHeight: 70,
+                    _buildActionCard(
+                      context,
+                      title: "Demande de document",
+                      image: "assets/demande_documents.png",
                       onTap: () {
                         Navigator.push(
                           context,
@@ -174,37 +188,81 @@ class StudentHomePage extends StatelessWidget {
                         );
                       },
                     ),
-                    HomeButton(
-                      image: 'assets/2.png',
-                      label: "Profil étudiant",
-                      imageHeight: 70,
+                    _buildActionCard(
+                      context,
+                      title: "Mes documents",
+                      image: "assets/mes_documents.png",
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const StudentProfilePage(),
+                            builder: (context) =>
+                                const StudentDocumentsPage(),
                           ),
                         );
                       },
                     ),
-                    HomeButton(
-                      image: 'assets/folder.png',
-                      label: "Mes documents",
-                      imageHeight: 100,
+                    _buildActionCard(
+                      context,
+                      title: "Profil étudiant",
+                      image: "assets/profil_etudiant.png",
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const StudentDocumentsPage(),
+                            builder: (context) =>
+                                const StudentProfilePage(),
                           ),
                         );
+                      },
+                    ),
+                    _buildActionCard(
+                      context,
+                      title: "Historique",
+                      image: "assets/historiques.png",
+                      onTap: () {
+                        // Tu pourras créer une page "Historique" plus tard
                       },
                     ),
                   ],
                 ),
               ),
             ),
-            Container(height: 30, color: primaryColor),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Méthode pour construire une carte action rapide moderne
+  Widget _buildActionCard(BuildContext context,
+      {required String title,
+      required String image,
+      required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Image.asset(image, fit: BoxFit.contain),
+              ),
+            ),
           ],
         ),
       ),

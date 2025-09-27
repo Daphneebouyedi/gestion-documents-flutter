@@ -30,22 +30,6 @@ class _StudentMainScreenState extends State<StudentMainScreen> {
         _pages = [
           StudentHomePage(
             currentUser: _currentUser,
-            onNotificationPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const StudentNotificationsPage(),
-                ),
-              );
-            },
-            onSearchPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const StudentSearchPage(),
-                ),
-              );
-            },
           ),
           const StudentDocumentsPage(),
           StudentProfilePage(currentUserData: _currentUser),
@@ -59,9 +43,9 @@ class _StudentMainScreenState extends State<StudentMainScreen> {
     super.initState();
     _selectedIndex = widget.initialIndex;
     _pages = [
-      StudentHomePage(),
+      StudentHomePage(currentUser: _currentUser),
       const StudentDocumentsPage(),
-      const StudentProfilePage(),
+      StudentProfilePage(currentUserData: _currentUser), // Assuming StudentProfilePage also takes currentUserData
     ];
   }
 

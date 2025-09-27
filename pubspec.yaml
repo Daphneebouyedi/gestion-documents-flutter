@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
 
   # Gestion PDF et impression
   pdf: ^3.11.3
@@ -58,9 +59,9 @@ flutter:
 
   assets:
     - assets/
-    - assets/profile_pic.jpg
+    - assets/avatar.jpg
     - assets/profile2.png
     - assets/folder.png
     - assets/doc.png
     - assets/laz.jpg
-    - assets/2.png
+

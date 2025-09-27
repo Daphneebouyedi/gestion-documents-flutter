@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/theme.dart';
 
 // Pages Étudiant
 import 'screens/auth/student_login_page.dart';
@@ -35,8 +37,13 @@ class MyApp extends StatelessWidget {
       title: 'App Scolaire',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.teal,
-        scaffoldBackgroundColor: Colors.white,
+        primaryColor: primaryColor,
+        scaffoldBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        textTheme: GoogleFonts.montserratTextTheme(
+          Theme.of(context).textTheme,
+        ).copyWith(
+          bodyMedium: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme).bodyMedium,
+        ),
       ),
       initialRoute: '/login',
       routes: {

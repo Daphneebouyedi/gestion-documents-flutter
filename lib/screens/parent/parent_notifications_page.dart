@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_application_1/theme.dart';
 
 class ParentNotificationsPage extends StatelessWidget {
@@ -42,9 +43,9 @@ class ParentNotificationsPage extends StatelessWidget {
               ),
               subtitle: Text(
                 notification['date']!,
-                style: const TextStyle(color: blackColor.withOpacity(0.54)),
+                style: TextStyle(color: blackColor.withOpacity(0.54)),
               ),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: blackColor.withOpacity(0.38)),
+              trailing: Icon(Icons.arrow_forward_ios, size: 16, color: blackColor.withOpacity(0.38)),
               onTap: () {
                 // TODO: action lorsqu'on clique sur une notification
               },

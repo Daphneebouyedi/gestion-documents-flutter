@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_application_1/theme.dart';
 
 class ParentDocumentsPage extends StatelessWidget {
@@ -45,7 +46,7 @@ class ParentDocumentsPage extends StatelessWidget {
                             const SizedBox(height: 12),
                             // Liste des documents classiques du parent
                             ListTile(
-                              leading: const Icon(Icons.picture_as_pdf, color: primaryColor),
+                              leading: Icon(Icons.picture_as_pdf, color: primaryColor),
                               title: const Text('Bulletin de notes'),
                               onTap: () {
                                 Navigator.pop(context);
@@ -53,7 +54,7 @@ class ParentDocumentsPage extends StatelessWidget {
                               },
                             ),
                             ListTile(
-                              leading: const Icon(Icons.picture_as_pdf, color: primaryColor),
+                              leading: Icon(Icons.picture_as_pdf, color: primaryColor),
                               title: const Text('Attestation de scolarité'),
                               onTap: () {
                                 Navigator.pop(context);
@@ -61,7 +62,7 @@ class ParentDocumentsPage extends StatelessWidget {
                               },
                             ),
                             ListTile(
-                              leading: const Icon(Icons.picture_as_pdf, color: primaryColor),
+                              leading: Icon(Icons.picture_as_pdf, color: primaryColor),
                               title: const Text('Diplôme'),
                               onTap: () {
                                 Navigator.pop(context);
@@ -69,7 +70,7 @@ class ParentDocumentsPage extends StatelessWidget {
                               },
                             ),
                             ListTile(
-                              leading: const Icon(Icons.picture_as_pdf, color: primaryColor),
+                              leading: Icon(Icons.picture_as_pdf, color: primaryColor),
                               title: const Text('Autre document'),
                               onTap: () {
                                 Navigator.pop(context);
@@ -118,19 +119,19 @@ class ParentDocumentsPage extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 2,
       child: ListTile(
-        leading: const Icon(Icons.picture_as_pdf, color: primaryColor),
+        leading: Icon(Icons.picture_as_pdf, color: primaryColor),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              icon: const Icon(Icons.download, color: blackColor.withOpacity(0.54)),
+              icon: Icon(Icons.download, color: blackColor.withOpacity(0.54)),
               onPressed: () {
                 // TODO: Télécharger le document
               },
             ),
             IconButton(
-              icon: const Icon(Icons.visibility, color: blackColor.withOpacity(0.54)),
+              icon: Icon(Icons.visibility, color: blackColor.withOpacity(0.54)),
               onPressed: () {
                 // TODO: Visualiser le document
               },

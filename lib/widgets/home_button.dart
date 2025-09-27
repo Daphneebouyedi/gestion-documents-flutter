@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/theme.dart';
+import 'package:flutter_application_1/theme.dart'; // Re-added theme import
 
 class HomeButton extends StatelessWidget {
   final String image;
@@ -18,7 +18,7 @@ class HomeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: whiteColor,
+      color: whiteColor, // Reverted to whiteColor
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
@@ -26,21 +26,14 @@ class HomeButton extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: lightGray, width: 1.2),
+            border: Border.all(color: lightGray, width: 1.2), // Reverted to lightGray
           ),
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(image, height: imageHeight),
-              const SizedBox(height: 10),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                ),
+              Expanded( // Make the image expanded
+                child: Image.asset(image, fit: BoxFit.contain), // Use BoxFit.contain to fit the image
               ),
             ],
           ),

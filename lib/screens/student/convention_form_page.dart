@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-
-// Style constants from CSS
-const primaryColor = Color(0xFF4ECDC4);
-const secondaryColor = Color(0xFF2D3748);
-const lightGray = Color(0xFFF7FAFC);
-const mediumGray = Color(0xFFE2E8F0);
-const errorColor = Color(0xFFE53E3E);
+import 'package:flutter_application_1/theme.dart';
 
 class ConventionFormPage extends StatefulWidget {
   @override
