@@ -111,7 +111,7 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Convention en cours de génération...')),
+        SnackBar(content: Text('Demande en cours d\'une convention de stage...')),
       );
       // In a real app, you would save the data to a backend here
       print('Form data submitted');
@@ -128,7 +128,7 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            'Formulaire demande convention de Stage',
+            'Demander une convention de Stage',
             style: TextStyle(color: secondaryColor, fontWeight: FontWeight.w600, fontSize: 22),
           ),
           backgroundColor: Colors.white,
@@ -240,7 +240,7 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
                       alignment: Alignment.centerRight,
                       child: ElevatedButton(
                         onPressed: _submitForm,
-                        child: Text('Formulaire demande la convention'),
+                        child: Text('Demander une convention'),
                       ),
                     ),
                   ],

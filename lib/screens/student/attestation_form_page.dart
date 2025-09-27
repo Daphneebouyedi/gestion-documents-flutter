@@ -130,9 +130,9 @@ class _AttestationFormState extends State<AttestationForm> {
   void _handleSubmit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      debugPrint("📄 Attestation générée avec: $formData");
+      debugPrint("📄 Attestation demandée avec: $formData");
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("✅ Attestation générée avec succès !")),
+        const SnackBar(content: Text("✅ Attestation demandée avec succès !")),
       );
       Navigator.pushNamed(context, "/documents-transferts");
     }
@@ -161,7 +161,7 @@ class _AttestationFormState extends State<AttestationForm> {
                     Image.asset("assets/images/ynov.png", width: 100, height: 100),
                     const SizedBox(height: 16),
                     Text(
-                      "Générer une attestation de frais de scolarité",
+                      "Demander une attestation de frais de scolarité",
                       style: AppStyles.headerTitle,
                       textAlign: TextAlign.center,
                     ),
@@ -270,7 +270,7 @@ class _AttestationFormState extends State<AttestationForm> {
                     ElevatedButton(
                       style: AppStyles.generateButton,
                       onPressed: _handleSubmit,
-                      child: const Text("Générer l’attestation"),
+                      child: const Text("Demander une attestation"),
                     ),
                     const SizedBox(width: 16),
                     ElevatedButton(

@@ -38,20 +38,8 @@ class ParentDocumentRequestPage extends StatelessWidget {
           children: [
             Text("Demande de document", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
             SizedBox(height: 9),
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: lightGray,
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-              ),
-              initialValue: "Attestation de scolarité",
-              items: [
-                DropdownMenuItem(value: "Attestation de scolarité", child: Text("Attestation de scolarité")),
-                DropdownMenuItem(value: "Bulletin de notes", child: Text("Bulletin de notes")),
-                DropdownMenuItem(value: "Diplôme", child: Text("Diplôme")),
-              ],
-              onChanged: (v) {},
-            ),
+            // New section for document choices
+            _DocumentChoiceSection(), // This will be a new StatefulWidget
             SizedBox(height: 16),
             Text("Elève", style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 7),
@@ -89,9 +77,90 @@ class ParentDocumentRequestPage extends StatelessWidget {
                 child: Text("Envoyer", style: TextStyle(fontSize: 18, color: whiteColor)),
               ),
             ),
+            Container(height: 30, color: primaryColor), // Reverted to primaryColor
           ],
         ),
       ),
+    );
+  }
+}
+
+class _DocumentChoiceSection extends StatefulWidget {
+  const _DocumentChoiceSection({Key? key}) : super(key: key);
+
+  @override
+  State<_DocumentChoiceSection> createState() => _DocumentChoiceSectionState();
+}
+
+class _DocumentChoiceSectionState extends State<_DocumentChoiceSection> {
+  String? _selectedDocument;
+  final List<String> _documentTypes = [
+    "Attestation de scolarité",
+    "Bulletin de notes",
+    "Diplôme",
+    "Autre document",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Choisir un document",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+        ),
+        SizedBox(height: 8),
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: _documentTypes.map((type) {
+            final isSelected = _selectedDocument == type;
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  _selectedDocument = type;
+                });
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                decoration: BoxDecoration(
+                  color: isSelected ? primaryColor : Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: isSelected ? primaryColor : lightGray,
+                    width: 1.5,
+                  ),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: primaryColor.withOpacity(0.3),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ]
+                      : [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                ),
+                child: Text(
+                  type,
+                  style: TextStyle(
+                    color: isSelected ? whiteColor : blackColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }
