@@ -8,10 +8,22 @@ class StudentProfileEditPage extends StatefulWidget {
 }
 
 class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
-  final TextEditingController nameController = TextEditingController(text: "Laz Livith");
-  final TextEditingController emailController = TextEditingController(text: "lazlivith77@gmail.com");
-  final TextEditingController phoneController = TextEditingController(text: "+225 002-23-10-00");
-  final TextEditingController yearController = TextEditingController(text: "2ème année");
+  final TextEditingController firstNameController =
+      TextEditingController(text: "Laz");
+  final TextEditingController lastNameController =
+      TextEditingController(text: "Livith");
+  final TextEditingController emailController =
+      TextEditingController(text: "Lazdesire77@gmail.com");
+  final TextEditingController phoneController =
+      TextEditingController(text: "+212 600-23-21-00");
+  final TextEditingController addressController =
+      TextEditingController(text: "42 rue des Ecoles, Casablanca");
+  final TextEditingController countryController =
+      TextEditingController(text: "Maroc");
+  final TextEditingController regionController =
+      TextEditingController(text: "Casablanca");
+  final TextEditingController yearController =
+      TextEditingController(text: "B1");
 
   @override
   Widget build(BuildContext context) {
@@ -19,47 +31,67 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Modifier Profil"),
+        title: const Text("Modifier Profil"),
         backgroundColor: turquoise,
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
-            _editField("Nom", nameController),
-            SizedBox(height: 10),
+            _editField("Prénom", firstNameController),
+            const SizedBox(height: 10),
+            _editField("Nom", lastNameController),
+            const SizedBox(height: 10),
             _editField("Email", emailController),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             _editField("Téléphone", phoneController),
-            SizedBox(height: 10),
-            _editField("Année", yearController),
-            SizedBox(height: 20),
+            const SizedBox(height: 10),
+            _editField("Adresse", addressController),
+            const SizedBox(height: 10),
+            _editField("Pays", countryController),
+            const SizedBox(height: 10),
+            _editField("Région", regionController),
+            const SizedBox(height: 10),
+            _editField("Classe / Année", yearController),
+            const SizedBox(height: 20),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: turquoise, padding: EdgeInsets.symmetric(vertical: 14)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: turquoise,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
               onPressed: () {
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.check_circle, color: turquoise, size: 48),
-                        SizedBox(height: 12),
-                        Text("Modifications enregistrées", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                        SizedBox(height: 8),
+                        const Icon(Icons.check_circle,
+                            color: turquoise, size: 48),
+                        const SizedBox(height: 12),
+                        const Text(
+                          "Modifications enregistrées",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                        const SizedBox(height: 8),
                         ElevatedButton(
                           onPressed: () => Navigator.pop(ctx),
-                          style: ElevatedButton.styleFrom(backgroundColor: turquoise),
-                          child: Text("Fermer", style: TextStyle(color: Colors.white)),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: turquoise),
+                          child: const Text("Fermer",
+                              style: TextStyle(color: Colors.white)),
                         )
                       ],
                     ),
                   ),
                 );
               },
-              child: Text("Enregistrer"),
+              child: const Text("Enregistrer"),
             ),
           ],
         ),
@@ -71,9 +103,14 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
-        SizedBox(height: 4),
-        TextField(controller: controller, decoration: InputDecoration(border: OutlineInputBorder())),
+        Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 4),
+        TextField(
+          controller: controller,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+          ),
+        ),
       ],
     );
   }

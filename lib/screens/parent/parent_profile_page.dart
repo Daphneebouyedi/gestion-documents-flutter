@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
-import 'parent_bottom_navbar.dart';
 
 class ParentProfilePage extends StatelessWidget {
   const ParentProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFF24B6AA); // bouton Modifier, flèche retour
+    const Color primaryColor = Color(0xFF24B6AA);
+    const Color buttonRed = Color(0xFFE74C3C);
     const Color textBlack = Colors.black;
-    const Color buttonRed = Color(0xFFE74C3C); // bouton Déconnexion
+
+    // Données parent (à adapter dynamiquement si nécessaire)
+    const String firstName = "Laz";
+    const String lastName = "Livith";
+    const String email = "Lazdesire77@gmail.com";
+    const String phone = "+212 600-23-21-00";
+    const String address = "42 rue des Ecoles, Casablanca";
+    const String country = "Maroc";
+    const String region = "Casablanca";
+    const String year = "2ème année";
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -16,12 +25,10 @@ class ParentProfilePage extends StatelessWidget {
         backgroundColor: primaryColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 28),
-          onPressed: () {
-            Navigator.of(context).pushReplacementNamed('/parent/home');
-          },
+          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 28),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(
+        title: const Text(
           "Profil",
           style: TextStyle(
             color: Colors.white,
@@ -37,65 +44,78 @@ class ParentProfilePage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Photo profil ronde
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 54,
-                  backgroundImage: AssetImage('assets/laz.jpg'),
-                  backgroundColor: Colors.grey[300],
+                  backgroundImage: AssetImage('assets/profile_pic.jpg'),
+                  backgroundColor: Colors.grey,
                 ),
-                SizedBox(height: 16),
-                // Nom
+                const SizedBox(height: 16),
+                // Nom complet
                 Text(
-                  "Laz Livit",
-                  style: TextStyle(
+                  "$firstName $lastName",
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                     color: textBlack,
                   ),
                 ),
-                SizedBox(height: 4),
-                // Année
+                const SizedBox(height: 4),
+                // Email
                 Text(
-                  "2ème année",
-                  style: TextStyle(
+                  email,
+                  style: const TextStyle(
                     fontSize: 16,
                     color: textBlack,
                     fontWeight: FontWeight.w500,
-                    letterSpacing: 1.1,
                   ),
                 ),
-                SizedBox(height: 18),
-                // Titre Informations personnels
+                const SizedBox(height: 4),
+                // Classe / Année
                 Text(
-                  "Informations personnels",
+                  year,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: textBlack,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 18),
+                // Titre Informations personnelles
+                const Text(
+                  "Informations personnelles",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                     color: textBlack,
                   ),
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 // Carte info
                 Container(
-                  width: 300,
+                  width: 320,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey.shade300, width: 1.5),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey.shade400, width: 1.5),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      InfoRow(label: "Laz Livith"),
-                      InfoRow(label: "Lazdesire77@ynov.com"),
-                      InfoRow(label: "212 600-23-21-00"),
-                      InfoRow(label: "42 rue des Ecoles, casablanca"),
+                      InfoRow(label: "Nom: $lastName"),
+                      InfoRow(label: "Prénom: $firstName"),
+                      InfoRow(label: "Email: $email"),
+                      InfoRow(label: "Téléphone: $phone"),
+                      InfoRow(label: "Adresse: $address"),
+                      InfoRow(label: "Pays: $country"),
+                      InfoRow(label: "Région: $region"),
+                      InfoRow(label: "Classe: $year"),
                     ],
                   ),
                 ),
-                SizedBox(height: 28),
+                const SizedBox(height: 28),
                 // Bouton Modifier
                 SizedBox(
                   width: 280,
@@ -110,7 +130,7 @@ class ParentProfilePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pushNamed('/parent/profile_edit');
                     },
-                    child: Text(
+                    child: const Text(
                       "Modifier",
                       style: TextStyle(
                         color: Colors.white,
@@ -121,7 +141,7 @@ class ParentProfilePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 // Bouton Déconnexion
                 SizedBox(
                   width: 280,
@@ -136,8 +156,8 @@ class ParentProfilePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
                     },
-                    child: Text(
-                      "Deconnexion",
+                    child: const Text(
+                      "Déconnexion",
                       style: TextStyle(
                         color: buttonRed,
                         fontSize: 18,
@@ -147,7 +167,7 @@ class ParentProfilePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 18),
+                const SizedBox(height: 18),
               ],
             ),
           ),
@@ -167,10 +187,7 @@ class InfoRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Text(
         label,
-        style: TextStyle(
-          color: Colors.black87,
-          fontSize: 15.5,
-        ),
+        style: const TextStyle(color: Colors.black87, fontSize: 15.5),
       ),
     );
   }

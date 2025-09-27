@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'student_home_page.dart';
+import '../auth/student_home_page.dart';
 import 'student_documents_page.dart';
 import 'student_profile_page.dart';
 import 'student_document_request_page.dart';
+import 'student_notifications_page.dart';
+import 'student_search_page.dart';
 
 class StudentMainScreen extends StatefulWidget {
   final int initialIndex;
@@ -14,18 +16,52 @@ class StudentMainScreen extends StatefulWidget {
 
 class _StudentMainScreenState extends State<StudentMainScreen> {
   late int _selectedIndex;
-
-  // Pages principales
   late List<Widget> _pages;
+  Map<String, String>? _currentUser;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Récupérer les arguments une seule fois
+    if (_currentUser == null) {
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>?;
+      setState(() {
+        _currentUser = args;
+        _pages = [
+          StudentHomePage(
+            currentUser: _currentUser,
+            onNotificationPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const StudentNotificationsPage(),
+                ),
+              );
+            },
+            onSearchPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const StudentSearchPage(),
+                ),
+              );
+            },
+          ),
+          const StudentDocumentsPage(),
+          StudentProfilePage(currentUserData: _currentUser),
+        ];
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
     _pages = [
-      StudentHomePage(),        // Home
-      StudentDocumentsPage(),   // Documents
-       StudentProfilePage(),     // Profile
+      StudentHomePage(),
+      const StudentDocumentsPage(),
+      const StudentProfilePage(),
     ];
   }
 
@@ -35,23 +71,31 @@ class _StudentMainScreenState extends State<StudentMainScreen> {
     });
   }
 
-  // Callback pour navigation depuis les boutons du HomePage
-  void navigateToRequestPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const StudentDocumentRequestPage()),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    // Afficher un loader tant que les données ne sont pas prêtes
+    if (_currentUser == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: Container(
-        height: 62,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border(top: BorderSide(color: Colors.black12, width: 1)),
+          boxShadow: const [
+            BoxShadow(color: Colors.black12, blurRadius: 8),
+          ],
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -81,7 +125,6 @@ class _StudentMainScreenState extends State<StudentMainScreen> {
   }
 }
 
-// Barre de navigation bas
 class _NavItem extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -99,23 +142,41 @@ class _NavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: SizedBox(
-        width: 80,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: Colors.black, size: 28),
-            const SizedBox(height: 3),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.black,
-                fontWeight: selected ? FontWeight.bold : FontWeight.normal,
-                letterSpacing: 1.2,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: selected ? Colors.blue.shade100 : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: TweenAnimationBuilder<double>(
+          tween: Tween<double>(begin: 1.0, end: selected ? 1.2 : 1.0),
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.elasticOut,
+          builder: (context, scale, child) {
+            return Transform.scale(
+              scale: scale,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    icon,
+                    color: selected ? Colors.blue : Colors.black54,
+                    size: 28,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+                      color: selected ? Colors.blue : Colors.black54,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

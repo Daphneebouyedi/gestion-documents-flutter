@@ -5,53 +5,95 @@ class StudentSearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const turquoise = Color(0xFF24B6AA);
+    const Color turquoise = Color(0xFF24B6AA);
+
+    // Exemple de résultats (à relier au backend plus tard)
+    final List<Map<String, String>> results = [
+      {"title": "Bulletin de notes", "date": "12 avr. 2024"},
+      {"title": "Attestation de scolarité", "date": "10 avr. 2024"},
+      {"title": "Diplôme", "date": "05 avr. 2024"},
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Recherche"),
+        title: const Text("Recherche"),
         backgroundColor: turquoise,
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            // Champ recherche stylé
             Container(
-              height: 44,
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              height: 50,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 border: Border.all(color: Colors.grey.shade300),
                 color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 3,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
-                  Expanded(child: TextField(decoration: InputDecoration(border: InputBorder.none, hintText: "Rechercher un document"))),
-                  Icon(Icons.search, color: turquoise),
+                  const Icon(Icons.search, color: turquoise),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Rechercher un document",
+                        hintStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      onChanged: (value) {
+                        // TODO: implémenter filtrage backend si nécessaire
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
-            SizedBox(height: 16),
-            _resultItem("Bulletin de notes", "12 avr. 2024"),
-            _resultItem("Attestation de scolarité", "10 avr. 2024"),
-            _resultItem("Diplôme", "05 avr. 2024"),
+            const SizedBox(height: 16),
+            // Résultats
+            Expanded(
+              child: ListView.builder(
+                itemCount: results.length,
+                itemBuilder: (context, index) {
+                  final item = results[index];
+                  return Card(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    elevation: 2,
+                    child: ListTile(
+                      title: Text(
+                        item['title']!,
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      subtitle: Text(
+                        item['date']!,
+                        style: TextStyle(color: Colors.grey.shade600),
+                      ),
+                      trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black45),
+                      onTap: () {
+                        // TODO: ouvrir le document correspondant
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _resultItem(String title, String date) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 12),
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey.shade300)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title),
-          Text(date, style: TextStyle(color: Colors.grey.shade600)),
-        ],
       ),
     );
   }

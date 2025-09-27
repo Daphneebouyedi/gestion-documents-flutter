@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'student_upload_age.dart'; // page pour scanner/téléverser
-import 'convention_form_page.dart'; // page existante pour Convention de stage
 
-class StudentDocumentsPage extends StatelessWidget {
-  const StudentDocumentsPage({Key? key}) : super(key: key);
+class ParentDocumentsPage extends StatelessWidget {
+  const ParentDocumentsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFF4ECDC4);
+    const Color primaryColor = Color(0xFF24B6AA);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mes Documents'),
         backgroundColor: primaryColor,
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -45,55 +44,37 @@ class StudentDocumentsPage extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 12),
-                            // Scanner un document
+                            // Liste des documents classiques du parent
                             ListTile(
-                              leading: const Icon(Icons.camera_alt, color: Colors.blue),
-                              title: const Text('Scanner un document'),
+                              leading: const Icon(Icons.picture_as_pdf, color: Colors.blue),
+                              title: const Text('Bulletin de notes'),
                               onTap: () {
                                 Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const StudentUploadPage(),
-                                  ),
-                                );
+                                // TODO: Logique pour ajouter ce document
                               },
                             ),
-                            // Téléverser un document
                             ListTile(
-                              leading: const Icon(Icons.upload_file, color: Colors.green),
-                              title: const Text('Téléverser un document'),
+                              leading: const Icon(Icons.picture_as_pdf, color: Colors.green),
+                              title: const Text('Attestation de scolarité'),
                               onTap: () {
                                 Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const StudentUploadPage(),
-                                  ),
-                                );
+                                // TODO: Logique pour ajouter ce document
                               },
                             ),
-                            // Convention de stage
                             ListTile(
-                              leading: const Icon(Icons.file_upload, color: Colors.orange),
-                              title: const Text('Convention de stage'),
+                              leading: const Icon(Icons.picture_as_pdf, color: Colors.orange),
+                              title: const Text('Diplôme'),
                               onTap: () {
                                 Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ConventionFormPage(),
-                                  ),
-                                );
+                                // TODO: Logique pour ajouter ce document
                               },
                             ),
-                            // Autre document
                             ListTile(
-                              leading: const Icon(Icons.file_copy, color: Colors.purple),
+                              leading: const Icon(Icons.picture_as_pdf, color: Colors.purple),
                               title: const Text('Autre document'),
                               onTap: () {
                                 Navigator.pop(context);
-                                // TODO: Logique pour ajouter un autre document
+                                // TODO: Logique pour ajouter ce document
                               },
                             ),
                           ],
@@ -119,10 +100,10 @@ class StudentDocumentsPage extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  _buildDocumentTile(context, 'Convention de stage 2025', primaryColor),
                   _buildDocumentTile(context, 'Bulletin de notes', primaryColor),
                   _buildDocumentTile(context, 'Attestation de scolarité', primaryColor),
-                  // Ajouter d'autres documents ici
+                  _buildDocumentTile(context, 'Diplôme', primaryColor),
+                  // Ajouter d'autres documents ici si besoin
                 ],
               ),
             ),
@@ -138,7 +119,7 @@ class StudentDocumentsPage extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 2,
       child: ListTile(
-        leading: const Icon(Icons.picture_as_pdf, color: Color(0xFF4ECDC4)),
+        leading: const Icon(Icons.picture_as_pdf, color: Color(0xFF24B6AA)),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,

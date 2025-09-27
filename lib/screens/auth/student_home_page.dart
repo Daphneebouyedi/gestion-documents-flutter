@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
-// ...existing code...
-import 'student_documents_page.dart'; // <-- importe la page des documents
-import 'student_document_request_page.dart'; // <-- importe la page des demandes de documents
-import 'student_profile_page.dart'; // <-- importe la page de profil
+import '../student/student_documents_page.dart';
+import '../student/student_document_request_page.dart';
+import '../student/student_profile_page.dart';
+import '../student/student_notifications_page.dart';
+import '../student/student_search_page.dart';
 
 class StudentHomePage extends StatelessWidget {
+  final Map<String, String>? currentUser; // <-- renommé pour uniformité
   final VoidCallback? onNavigateRequest;
   final VoidCallback? onNavigateDocuments;
   final VoidCallback? onNavigateProfile;
+  final VoidCallback? onNotificationPressed;
+  final VoidCallback? onSearchPressed;
 
   const StudentHomePage({
+    this.currentUser,
     this.onNavigateRequest,
     this.onNavigateDocuments,
     this.onNavigateProfile,
+    this.onNotificationPressed,
+    this.onSearchPressed,
     Key? key,
   }) : super(key: key);
 
@@ -26,7 +33,7 @@ class StudentHomePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // --- Header et barre de recherche (inchangé) ---
+            // --- Header et barre de recherche ---
             Container(
               margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
               decoration: BoxDecoration(
@@ -36,7 +43,7 @@ class StudentHomePage extends StatelessWidget {
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 3,
-                    offset: Offset(0, 1),
+                    offset: const Offset(0, 1),
                   )
                 ],
               ),
@@ -47,11 +54,11 @@ class StudentHomePage extends StatelessWidget {
                     Row(
                       children: [
                         const Icon(Icons.menu, color: Colors.black, size: 28),
-                        const Expanded(
+                        Expanded(
                           child: Center(
                             child: Text(
-                              "Accueil Etudiant",
-                              style: TextStyle(
+                              "Accueil Étudiant",
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -60,18 +67,19 @@ class StudentHomePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          width: 34,
-                          height: 34,
-                          decoration: const BoxDecoration(
-                            color: turquoise,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.location_on,
-                            color: Colors.white,
-                            size: 22,
-                          ),
+                        IconButton(
+                          icon: const Icon(Icons.notifications,
+                              color: turquoise, size: 28),
+                          onPressed: onNotificationPressed ??
+                              () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const StudentNotificationsPage(),
+                                  ),
+                                );
+                              },
                         ),
                       ],
                     ),
@@ -99,31 +107,39 @@ class StudentHomePage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 17),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.black12, width: 1.2),
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
-                      child: Row(
-                        children: const [
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Rechercher un document",
-                                hintStyle: TextStyle(
+                    GestureDetector(
+                      onTap: onSearchPressed ??
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const StudentSearchPage(),
+                              ),
+                            );
+                          },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black12, width: 1.2),
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
+                        child: Row(
+                          children: [
+                            const Expanded(
+                              child: Text(
+                                "Rechercher un document",
+                                style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1,
                                   fontSize: 15,
-                                  color: Colors.black,
+                                  color: Colors.black54,
                                 ),
                               ),
                             ),
-                          ),
-                          Icon(Icons.search, color: turquoise, size: 24),
-                        ],
+                            const Icon(Icons.search, color: turquoise, size: 24),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -151,12 +167,12 @@ class StudentHomePage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const StudentDocumentRequestPage(),
+                            builder: (context) =>
+                                StudentDocumentRequestPage(currentUser: currentUser),
                           ),
                         );
                       },
                     ),
-                    // _HomeButton Paiement supprimé
                     _HomeButton(
                       image: 'assets/2.png',
                       label: "Profil étudiant",

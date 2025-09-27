@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-
 // Importer tes pages
-import 'parent/documents_page.dart';
+import 'parent/parent_documents_page.dart';
 import 'parent/parent_profile_page.dart';
 import 'parent/parent_notifications_page.dart';
 

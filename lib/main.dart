@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 
 // Pages Étudiant
-import 'screens/student/student_login_page.dart';
+import 'screens/auth/student_login_page.dart';
 import 'screens/student/student_main_screen.dart';
 import 'screens/student/student_pd_view.dart';
 import 'screens/student/student_upload_age.dart';
 import 'screens/student/student_search_page.dart';
 import 'screens/student/student_profile_edit_page.dart';
-// ...existing code...
 import 'screens/student/student_notifications_page.dart';
-// ...existing code...
+import 'screens/student/student_documents_page.dart';
+import 'screens/student/convention_form_page.dart';
+import 'screens/student/attestation_form_page.dart';
 
 // Pages Parent
-import 'screens/parent/parent_login_page.dart';
+import 'screens/parent/parent_documents_page.dart'; // <-- import corrigé
 import 'screens/parent/parent_profile_page.dart';
 import 'screens/parent/parent_notifications_page.dart';
 import 'screens/parent/parent_document_request_page.dart';
 import 'screens/parent/parent_document_view_page.dart';
-// ...existing code...
 import 'screens/parent/parent_profile_edit_page.dart';
 import 'screens/parent/parent_profile_edit_success_page.dart';
-import 'screens/parent/home_page.dart';
+import 'screens/auth/home_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -39,11 +40,11 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/login',
       routes: {
-        // Page de connexion unique
-        '/login': (context) =>  StudentLoginPage(),
+        // Page de connexion
+        '/login': (context) => StudentLoginPage(),
 
-        // Partie Étudiant
-        '/student/home': (context) =>  StudentMainScreen(initialIndex: 0),
+        // Partie Étudiant - écran principal avec navigation
+        '/student/home': (context) => StudentMainScreen(initialIndex: 0),
         '/student/documents': (context) => StudentMainScreen(initialIndex: 1),
         '/student/profile': (context) => StudentMainScreen(initialIndex: 2),
         '/student/request': (context) => StudentMainScreen(initialIndex: 3),
@@ -51,22 +52,22 @@ class MyApp extends StatelessWidget {
         // Pages secondaires Étudiant
         '/student/pdf_view': (context) => StudentPdfViewPage(),
         '/student/upload': (context) => StudentUploadPage(),
-        '/student/search': (context) => StudentSearchPage(),
+        '/student/search': (context) => const StudentSearchPage(),
         '/student/profile_edit': (context) => StudentProfileEditPage(),
-  // '/student/payments': (context) => StudentPaymentsPage(),
-        '/student/notifications': (context) => StudentNotificationsPage(),
+        '/student/notifications': (context) => const StudentNotificationsPage(),
+        '/student/documents_page': (context) => StudentDocumentsPage(),
+        '/student/convention_form': (context) => ConventionFormPage(),
+        '/student/attestation_form': (context) => AttestationForm(),
 
         // Partie Parent
-        '/parent/login': (context) => ParentLoginPage(),
         '/parent/home': (context) => HomePage(),
-        '/parent/documents': (context) =>  ParentDocumentViewPage(),
+        '/parent/documents': (context) => ParentDocumentsPage(), // <-- mis à jour
         '/parent/profile': (context) => ParentProfilePage(),
         '/parent/notifications': (context) => ParentNotificationsPage(),
         '/parent/document_request': (context) => ParentDocumentRequestPage(),
-        '/parent/document_view': (context) =>  ParentDocumentViewPage(),
-  // '/parent/payments': (context) =>  ParentPaymentPage(),
-        '/parent/profile_edit': (context) =>  ParentProfileEditPage(),
-        '/parent/profile_edit_success': (context) =>  ParentProfileEditSuccessPage(),
+        '/parent/document_view': (context) => ParentDocumentViewPage(),
+        '/parent/profile_edit': (context) => ParentProfileEditPage(),
+        '/parent/profile_edit_success': (context) => ParentProfileEditSuccessPage(),
       },
     );
   }
