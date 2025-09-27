@@ -98,6 +98,7 @@ class _DocumentChoiceSectionState extends State<_DocumentChoiceSection> {
     "Attestation de scolarité",
     "Bulletin de notes",
     "Diplôme",
+    "Convention d'étude",
     "Autre document",
   ];
 

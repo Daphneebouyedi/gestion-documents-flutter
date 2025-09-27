@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/theme.dart'; // Import theme.dart
+import 'package:flutter_application_1/theme.dart' as app_theme;
 import 'convention_form_page.dart';
 import 'student_upload_age.dart';
 import 'attestation_form_page.dart';
+import 'convention_etude_form_page.dart';
 
 class StudentDocumentRequestPage extends StatelessWidget {
   final Map<String, String>? currentUser;
@@ -49,6 +50,17 @@ class StudentDocumentRequestPage extends StatelessWidget {
         },
       ),
       _DocumentOption(
+        title: 'Convention d\'étude',
+        icon: Icons.book,
+        color: Colors.blueGrey,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ConventionEtudeFormPage()),
+          );
+        },
+      ),
+      _DocumentOption(
         title: 'Autre document',
         icon: Icons.upload_file,
         color: Colors.purpleAccent,
@@ -63,7 +75,7 @@ class StudentDocumentRequestPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: primaryColor,
+        backgroundColor: app_theme.primaryColor,
         title: const Text('Demande de document'),
       ),
       body: Padding(
