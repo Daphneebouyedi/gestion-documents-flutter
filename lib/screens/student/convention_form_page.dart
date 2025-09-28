@@ -9,51 +9,78 @@ class ConventionFormPage extends StatefulWidget {
 class _ConventionFormPageState extends State<ConventionFormPage> {
   final _formKey = GlobalKey<FormState>();
 
-  // Controllers
-  final _candidatNomController = TextEditingController();
-  final _candidatPrenomController = TextEditingController();
-  String _candidatCivilite = 'Monsieur';
-  final _candidatDateNaissanceController = TextEditingController();
-  final _candidatEmailController = TextEditingController();
-  final _candidatTelephoneController = TextEditingController();
-  final _candidatAdresseController = TextEditingController();
-
-  final _responsableLegalNomController = TextEditingController();
-  final _responsableLegalPrenomController = TextEditingController();
-  String _responsableLegalCivilite = 'Monsieur';
-  final _responsableLegalTelephoneController = TextEditingController();
-  final _responsableLegalEmailController = TextEditingController();
-
-  final _responsableFinancierNomController = TextEditingController();
-  final _responsableFinancierPrenomController = TextEditingController();
-  String _responsableFinancierCivilite = 'Monsieur';
-  final _responsableFinancierTelephoneController = TextEditingController();
-  final _responsableFinancierEmailController = TextEditingController();
-
-  final _etudesAnterieuresController = TextEditingController();
+  // Form data controllers
+  final _dateDebutController = TextEditingController();
+  final _dateFinController = TextEditingController();
+  final _stagiaireNomController = TextEditingController();
+  final _stagiairePrenomController = TextEditingController();
+  String _stagiaireCivilite = 'Monsieur';
+  final _stagiaireAdresseController = TextEditingController();
+  final _stagiaireCodePostalController = TextEditingController();
+  final _stagiaireVilleController = TextEditingController();
+  final _stagiaireTelephoneController = TextEditingController();
+  final _stagiaireEmailController = TextEditingController();
+  final _entrepriseTypeController = TextEditingController();
+  final _entrepriseNomController = TextEditingController();
+  final _entrepriseAdresseController = TextEditingController();
+  final _entrepriseCodePostalController = TextEditingController();
+  final _entrepriseVilleController = TextEditingController();
+  final _entreprisePaysController = TextEditingController();
+  final _entrepriseTelephoneController = TextEditingController();
+  final _entrepriseFaxController = TextEditingController();
+  final _entrepriseSiteWebController = TextEditingController();
+  final _entrepriseNbEmployesController = TextEditingController();
+  final _representantNomController = TextEditingController();
+  final _representantPrenomController = TextEditingController();
+  String _representantCivilite = 'Monsieur';
+  final _representantFonctionController = TextEditingController();
+  final _representantTelephoneController = TextEditingController();
+  final _representantEmailController = TextEditingController();
+  final _tachesController = TextEditingController();
+  final _environnementTechnoController = TextEditingController();
+  final _formationsController = TextEditingController();
+  final _objectifsController = TextEditingController();
+  final _nbCollaborateursController = TextEditingController();
   final _commentairesController = TextEditingController();
+  final _indemniteMontantController = TextEditingController();
+  String _indemniteMonnaie = 'EUROS';
+  final _indemniteCommentaireController = TextEditingController();
 
   @override
   void dispose() {
-    _candidatNomController.dispose();
-    _candidatPrenomController.dispose();
-    _candidatDateNaissanceController.dispose();
-    _candidatEmailController.dispose();
-    _candidatTelephoneController.dispose();
-    _candidatAdresseController.dispose();
-
-    _responsableLegalNomController.dispose();
-    _responsableLegalPrenomController.dispose();
-    _responsableLegalTelephoneController.dispose();
-    _responsableLegalEmailController.dispose();
-
-    _responsableFinancierNomController.dispose();
-    _responsableFinancierPrenomController.dispose();
-    _responsableFinancierTelephoneController.dispose();
-    _responsableFinancierEmailController.dispose();
-
-    _etudesAnterieuresController.dispose();
+    // Dispose controllers
+    _dateDebutController.dispose();
+    _dateFinController.dispose();
+    _stagiaireNomController.dispose();
+    _stagiairePrenomController.dispose();
+    _stagiaireAdresseController.dispose();
+    _stagiaireCodePostalController.dispose();
+    _stagiaireVilleController.dispose();
+    _stagiaireTelephoneController.dispose();
+    _stagiaireEmailController.dispose();
+    _entrepriseTypeController.dispose();
+    _entrepriseNomController.dispose();
+    _entrepriseAdresseController.dispose();
+    _entrepriseCodePostalController.dispose();
+    _entrepriseVilleController.dispose();
+    _entreprisePaysController.dispose();
+    _entrepriseTelephoneController.dispose();
+    _entrepriseFaxController.dispose();
+    _entrepriseSiteWebController.dispose();
+    _entrepriseNbEmployesController.dispose();
+    _representantNomController.dispose();
+    _representantPrenomController.dispose();
+    _representantFonctionController.dispose();
+    _representantTelephoneController.dispose();
+    _representantEmailController.dispose();
+    _tachesController.dispose();
+    _environnementTechnoController.dispose();
+    _formationsController.dispose();
+    _objectifsController.dispose();
+    _nbCollaborateursController.dispose();
     _commentairesController.dispose();
+    _indemniteMontantController.dispose();
+    _indemniteCommentaireController.dispose();
     super.dispose();
   }
 
@@ -61,12 +88,14 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2100),
-      builder: (context, child) {
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(primary: primaryColor),
+            colorScheme: ColorScheme.light(
+              primary: primaryColor,
+            ),
           ),
           child: child!,
         );
@@ -82,9 +111,10 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Demande de convention en cours...')),
+        SnackBar(content: Text('Demande en cours d\'une convention de stage...')),
       );
-      print('Form submitted');
+      // In a real app, you would save the data to a backend here
+      print('Form data submitted');
       Navigator.pop(context);
     }
   }
@@ -98,12 +128,8 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            'Demander une convention d\'étude',
-            style: TextStyle(
-              color: secondaryColor,
-              fontWeight: FontWeight.w600,
-              fontSize: 22,
-            ),
+            'Demander une convention de Stage',
+            style: TextStyle(color: secondaryColor, fontWeight: FontWeight.w600, fontSize: 22),
           ),
           backgroundColor: Colors.white,
           elevation: 1,
@@ -115,8 +141,10 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
+              // Assuming you have 'Ynov.png' in your 'assets' folder
+              // and have added 'assets/Ynov.png' to pubspec.yaml
               child: Icon(Icons.school, color: primaryColor, size: 40),
-            ),
+            )
           ],
         ),
         body: Center(
@@ -129,8 +157,8 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
                   color: Colors.black.withOpacity(0.1),
                   blurRadius: 15,
                   offset: Offset(0, 4),
-                ),
-              ],
+                )
+              ]
             ),
             constraints: BoxConstraints(maxWidth: 900),
             margin: EdgeInsets.all(16),
@@ -142,49 +170,69 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildSection(
-                      title: 'Candidat',
+                      title: 'Période de stage',
                       children: [
-                        _buildTextField('Nom', _candidatNomController),
-                        _buildTextField('Prénom', _candidatPrenomController),
-                        _buildDropdownField('Civilité', _candidatCivilite, ['Monsieur', 'Madame'], (val) => setState(() => _candidatCivilite = val!)),
-                        _buildDateField(context, 'Date de naissance', _candidatDateNaissanceController),
-                        _buildTextField('Adresse', _candidatAdresseController, fullWidth: true),
-                        _buildTextField('Téléphone', _candidatTelephoneController, inputType: TextInputType.phone),
-                        _buildTextField('Email', _candidatEmailController, inputType: TextInputType.emailAddress),
+                        _buildDateField(context, 'Date de début', _dateDebutController),
+                        _buildDateField(context, 'Date de fin', _dateFinController),
                       ],
                     ),
                     _buildSection(
-                      title: 'Responsable légal',
+                      title: 'Le Stagiaire',
                       children: [
-                        _buildTextField('Nom', _responsableLegalNomController),
-                        _buildTextField('Prénom', _responsableLegalPrenomController),
-                        _buildDropdownField('Civilité', _responsableLegalCivilite, ['Monsieur', 'Madame'], (val) => setState(() => _responsableLegalCivilite = val!)),
-                        _buildTextField('Téléphone', _responsableLegalTelephoneController, inputType: TextInputType.phone, isRequired: false),
-                        _buildTextField('Email', _responsableLegalEmailController, inputType: TextInputType.emailAddress, isRequired: false),
+                        _buildTextField('Nom', _stagiaireNomController),
+                        _buildTextField('Prénom', _stagiairePrenomController),
+                        _buildDropdownField('Civilité', _stagiaireCivilite, ['Monsieur', 'Madame'], (val) => setState(() => _stagiaireCivilite = val!)),
+                        _buildTextField('Adresse', _stagiaireAdresseController, fullWidth: true),
+                        _buildTextField('Code Postal', _stagiaireCodePostalController, inputType: TextInputType.number),
+                        _buildTextField('Ville', _stagiaireVilleController),
+                        _buildTextField('Téléphone', _stagiaireTelephoneController, inputType: TextInputType.phone),
+                        _buildTextField('Adresse E-mail', _stagiaireEmailController, inputType: TextInputType.emailAddress),
                       ],
                     ),
                     _buildSection(
-                      title: 'Responsable financier',
+                      title: 'L\'Entreprise',
                       children: [
-                        _buildTextField('Nom', _responsableFinancierNomController),
-                        _buildTextField('Prénom', _responsableFinancierPrenomController),
-                        _buildDropdownField('Civilité', _responsableFinancierCivilite, ['Monsieur', 'Madame'], (val) => setState(() => _responsableFinancierCivilite = val!)),
-                        _buildTextField('Téléphone', _responsableFinancierTelephoneController, inputType: TextInputType.phone, isRequired: false),
-                        _buildTextField('Email', _responsableFinancierEmailController, inputType: TextInputType.emailAddress, isRequired: false),
+                        _buildTextField('Type d\'entreprise', _entrepriseTypeController, isRequired: false),
+                        _buildTextField('Nom de l\'entreprise', _entrepriseNomController),
+                        _buildTextField('Adresse', _entrepriseAdresseController, fullWidth: true),
+                        _buildTextField('Code Postal', _entrepriseCodePostalController, inputType: TextInputType.number),
+                        _buildTextField('Ville', _entrepriseVilleController),
+                        _buildTextField('Pays', _entreprisePaysController, isRequired: false),
+                        _buildTextField('Téléphone', _entrepriseTelephoneController, inputType: TextInputType.phone, isRequired: false),
+                        _buildTextField('Fax', _entrepriseFaxController, inputType: TextInputType.phone, isRequired: false),
+                        _buildTextField('Site Web', _entrepriseSiteWebController, inputType: TextInputType.url, isRequired: false),
+                        _buildTextField('Nombre d\'employés', _entrepriseNbEmployesController, inputType: TextInputType.number, isRequired: false),
                       ],
                     ),
                     _buildSection(
-                      title: 'Études antérieures',
+                      title: 'Représentant de l\'entreprise',
+                      children: [
+                        _buildTextField('Nom', _representantNomController),
+                        _buildTextField('Prénom', _representantPrenomController),
+                        _buildDropdownField('Civilité', _representantCivilite, ['Monsieur', 'Madame'], (val) => setState(() => _representantCivilite = val!)),
+                        _buildTextField('Fonction', _representantFonctionController, isRequired: false),
+                        _buildTextField('Téléphone', _representantTelephoneController, inputType: TextInputType.phone, isRequired: false),
+                        _buildTextField('Adresse E-mail', _representantEmailController, inputType: TextInputType.emailAddress, isRequired: false),
+                      ],
+                    ),
+                    _buildSection(
+                      title: 'Descriptif du stage',
                       singleColumn: true,
                       children: [
-                        _buildTextField('Détails', _etudesAnterieuresController, maxLines: 4, fullWidth: true, isRequired: false),
+                        _buildTextField('Tâches quotidiennes', _tachesController, maxLines: 4, isRequired: false),
+                        _buildTextField('Environnement technologique', _environnementTechnoController, maxLines: 4, isRequired: false),
+                        _buildTextField('Formations prévues', _formationsController, maxLines: 4, isRequired: false),
+                        _buildTextField('Objectifs pédagogiques', _objectifsController, maxLines: 4, isRequired: false),
+                        _buildTextField('Nombre de collaborateurs', _nbCollaborateursController, inputType: TextInputType.number, isRequired: false),
+                        _buildTextField('Commentaires', _commentairesController, maxLines: 4, isRequired: false),
                       ],
                     ),
                     _buildSection(
-                      title: 'Commentaires',
-                      singleColumn: true,
+                      title: 'Indemnité de stage',
                       children: [
-                        _buildTextField('Commentaires', _commentairesController, maxLines: 4, fullWidth: true, isRequired: false),
+                        _buildTextField('Montant', _indemniteMontantController, inputType: TextInputType.number, isRequired: false),
+                        _buildDropdownField('Monnaie', _indemniteMonnaie, ['EUROS', 'FCFA', 'MAD'], (val) => setState(() => _indemniteMonnaie = val!)),
+                        _buildTextField('Commentaire', _indemniteCommentaireController, maxLines: 4, isRequired: false, fullWidth: true),
                       ],
                     ),
                     SizedBox(height: 30),
@@ -196,7 +244,7 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
                       ),
                     ),
                   ],
-                ),
+                ), 
               ),
             ),
           ),
@@ -207,41 +255,41 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
 
   ThemeData _buildTheme(BuildContext context) {
     return Theme.of(context).copyWith(
-      primaryColor: primaryColor,
-      colorScheme: Theme.of(context).colorScheme.copyWith(
-            primary: primaryColor,
-            secondary: secondaryColor,
-            error: errorColor,
-          ),
-      inputDecorationTheme: InputDecorationTheme(
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(color: mediumGray),
+        primaryColor: primaryColor,
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+          primary: primaryColor,
+          secondary: secondaryColor,
+          error: errorColor,
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(color: primaryColor, width: 1.5),
-        ),
-        labelStyle: TextStyle(color: secondaryColor, fontWeight: FontWeight.w500),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          foregroundColor: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-          textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          shape: RoundedRectangleBorder(
+        inputDecorationTheme: InputDecorationTheme(
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4),
+            borderSide: BorderSide(color: mediumGray),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4),
+            borderSide: BorderSide(color: primaryColor, width: 1.5),
+          ),
+          labelStyle: TextStyle(color: secondaryColor, fontWeight: FontWeight.w500),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: primaryColor,
+            foregroundColor: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+            textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
           ),
         ),
-      ),
-      textTheme: Theme.of(context).textTheme.apply(
-            fontFamily: 'Segoe UI',
-            bodyColor: secondaryColor,
-            displayColor: secondaryColor,
-          ),
-    );
+        textTheme: Theme.of(context).textTheme.apply(
+          fontFamily: 'Segoe UI',
+          bodyColor: secondaryColor,
+          displayColor: secondaryColor,
+        ),
+      );
   }
 
   Widget _buildSection({required String title, required List<Widget> children, bool singleColumn = false}) {
@@ -277,7 +325,7 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
   Widget _buildFormGrid(List<Widget> children) {
     return LayoutBuilder(builder: (context, constraints) {
       double itemWidth = (constraints.maxWidth / 2) - 12;
-      if (constraints.maxWidth < 600) {
+      if (constraints.maxWidth < 600) { // Use single column on smaller screens
         itemWidth = double.infinity;
       }
       return Wrap(
@@ -293,11 +341,7 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
     });
   }
 
-  Widget _buildTextField(String label, TextEditingController controller,
-      {TextInputType inputType = TextInputType.text,
-      int maxLines = 1,
-      bool isRequired = true,
-      bool fullWidth = false}) {
+  Widget _buildTextField(String label, TextEditingController controller, {TextInputType inputType = TextInputType.text, int maxLines = 1, bool isRequired = true, bool fullWidth = false}) {
     return FormFieldWrapper(
       fullWidth: fullWidth,
       child: TextFormField(
@@ -315,8 +359,7 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
     );
   }
 
-  Widget _buildDateField(BuildContext context, String label, TextEditingController controller,
-      {bool fullWidth = false}) {
+  Widget _buildDateField(BuildContext context, String label, TextEditingController controller, {bool fullWidth = false}) {
     return FormFieldWrapper(
       fullWidth: fullWidth,
       child: TextFormField(
@@ -337,8 +380,7 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
     );
   }
 
-  Widget _buildDropdownField(String label, String currentValue, List<String> items, ValueChanged<String?> onChanged,
-      {bool fullWidth = false}) {
+  Widget _buildDropdownField(String label, String currentValue, List<String> items, ValueChanged<String?> onChanged, {bool fullWidth = false}) {
     return FormFieldWrapper(
       fullWidth: fullWidth,
       child: DropdownButtonFormField<String>(
@@ -351,6 +393,7 @@ class _ConventionFormPageState extends State<ConventionFormPage> {
   }
 }
 
+// Helper widget to pass the fullWidth property through the widget tree
 class FormFieldWrapper extends StatelessWidget {
   final Widget child;
   final bool fullWidth;
