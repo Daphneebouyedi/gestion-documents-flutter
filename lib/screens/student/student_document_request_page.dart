@@ -56,7 +56,7 @@ class StudentDocumentRequestPage extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ConventionEtudeFormPage()),
+            MaterialPageRoute(builder: (context) => ConventionEtudeForm()),
           );
         },
       ),

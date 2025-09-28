@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 
 // Importer tes pages
+import 'auth/home_page.dart';
 import 'parent/parent_documents_page.dart';
 import 'parent/parent_profile_page.dart';
 import 'parent/parent_notifications_page.dart';
@@ -17,7 +18,8 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
  final List<Widget> _pages = [
-  DocumentsPage(),
+  HomePage(),
+  ParentDocumentsPage(),
   ParentProfilePage(),
   ParentNotificationsPage(),
 ];

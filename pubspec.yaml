@@ -58,10 +58,15 @@ flutter:
           weight: 700
 
   assets:
-    - assets/
+    - assets/fonts/
     - assets/avatar.jpg
     - assets/profile2.png
     - assets/folder.png
     - assets/doc.png
     - assets/laz.jpg
+    - assets/Etudiants.png
+    - assets/demande_documents.png
+    - assets/historiques.png
+    - assets/mes_documents.png
+    - assets/profil_etudiant.png
 
