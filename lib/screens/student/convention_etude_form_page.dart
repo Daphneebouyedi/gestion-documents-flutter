@@ -328,7 +328,7 @@ class ConventionEtudeFormState extends State<ConventionEtudeForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Générer une convention d'étude"),
+        title: const Text("Demander une convention d'étude"),
         actions: [
           IconButton(
             icon: const Icon(Icons.picture_as_pdf),
