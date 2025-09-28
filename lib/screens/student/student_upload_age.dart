@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:html' as html; // uniquement pour Flutter Web
+// import 'dart:html' as html; // uniquement pour Flutter Web
 
 class StudentUploadPage extends StatefulWidget {
   const StudentUploadPage({super.key});
@@ -22,23 +22,9 @@ class _StudentUploadPageState extends State<StudentUploadPage> {
   Future<void> _pickFileFromGallery() async {
     if (kIsWeb) {
       // Web
-      html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-      uploadInput.accept = 'image/*,application/pdf';
-      uploadInput.click();
-      uploadInput.onChange.listen((event) {
-        final files = uploadInput.files;
-        if (files != null && files.isNotEmpty) {
-          final file = files[0];
-          final reader = html.FileReader();
-          reader.readAsArrayBuffer(file);
-          reader.onLoadEnd.listen((event) {
-            setState(() {
-              _webBytes = reader.result as Uint8List;
-              _fileName = file.name;
-            });
-          });
-        }
-      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("File picking not supported on web in this version.")),
+      );
     } else {
       // Mobile
       final XFile? file = await _picker.pickImage(source: ImageSource.gallery);
@@ -156,7 +142,7 @@ class _StudentUploadPageState extends State<StudentUploadPage> {
                               _fileName != null && _fileName!.endsWith('.pdf')
                                   ? const Icon(Icons.picture_as_pdf, size: 100, color: Colors.red)
                                   : kIsWeb
-                                      ? Image.memory(_webBytes!, height: 200)
+                                      ? const Text("Web preview not available")
                                       : Image.file(File(_pickedFile!.path), height: 200),
                               const SizedBox(height: 12),
                               Text("Document sélectionné : $_fileName"),
