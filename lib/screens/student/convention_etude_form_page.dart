@@ -1,9 +1,10 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/theme.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class ConventionEtudeForm extends StatefulWidget {
   const ConventionEtudeForm({Key? key}) : super(key: key);
@@ -15,151 +16,110 @@ class ConventionEtudeForm extends StatefulWidget {
 class ConventionEtudeFormState extends State<ConventionEtudeForm> {
   final _formKey = GlobalKey<FormState>();
 
-  // ----------------- Contrôleurs pour le candidat -----------------
+  // Controllers are initialized with sample data as in the React example
   final _nomCandidatController = TextEditingController(text: "DUPONT");
   final _prenomCandidatController = TextEditingController(text: "Sophie");
-  String civiliteCandidat = "Mme";
-  final _dateNaissanceCandidatController = TextEditingController(text: "2005-08-20");
-  final _lieuNaissanceCandidatController = TextEditingController(text: "Marseille");
+  String _civiliteCandidat = "Mme";
+  final _dateNaissanceCandidatController =
+      TextEditingController(text: "2005-08-20");
+  final _lieuNaissanceCandidatController =
+      TextEditingController(text: "Marseille");
   final _paysCandidatController = TextEditingController(text: "France");
-  final _nationaliteCandidatController = TextEditingController(text: "Française");
-  final _adresseCandidatController = TextEditingController(text: "5 Allée des Palmiers");
+  final _nationaliteCandidatController =
+      TextEditingController(text: "Française");
+  final _adresseCandidatController =
+      TextEditingController(text: "5 Allée des Palmiers");
   final _villeCandidatController = TextEditingController(text: "Nice");
   final _codePostalCandidatController = TextEditingController(text: "06000");
   final _telephoneCandidatController = TextEditingController(text: "0493000000");
   final _portableCandidatController = TextEditingController(text: "0600000000");
-  final _emailCandidatController = TextEditingController(text: "sophie.dupont@mail.com");
+  final _emailCandidatController =
+      TextEditingController(text: "sophie.dupont@mail.com");
   final _idCandidatController = TextEditingController(text: "ID12345678");
+  XFile? _photoCandidat;
 
-  // ----------------- Responsable légal -----------------
-  String civiliteRespLegal = "Mr";
-  String qualiteRespLegal = "Père";
+  String _civiliteRespLegal = "Mr";
+  String _qualiteRespLegal = "Père";
   final _nomRespLegalController = TextEditingController(text: "DUPONT");
   final _prenomRespLegalController = TextEditingController(text: "Marc");
-  final _dateNaissanceRespLegalController = TextEditingController(text: "1975-01-01");
+  final _dateNaissanceRespLegalController =
+      TextEditingController(text: "1975-01-01");
   final _lieuNaissanceRespLegalController = TextEditingController(text: "Paris");
   final _paysRespLegalController = TextEditingController(text: "France");
-  final _nationaliteRespLegalController = TextEditingController(text: "Française");
-  final _adresseRespLegalController = TextEditingController(text: "5 Allée des Palmiers");
+  final _nationaliteRespLegalController =
+      TextEditingController(text: "Française");
+  final _adresseRespLegalController =
+      TextEditingController(text: "5 Allée des Palmiers");
   final _villeRespLegalController = TextEditingController(text: "Nice");
   final _codePostalRespLegalController = TextEditingController(text: "06000");
-  final _telephoneRespLegalController = TextEditingController(text: "0493111111");
-  final _portableRespLegalController = TextEditingController(text: "0611111111");
-  final _emailRespLegalController = TextEditingController(text: "marc.dupont@mail.com");
+  final _telephoneRespLegalController =
+      TextEditingController(text: "0493111111");
+  final _portableRespLegalController =
+      TextEditingController(text: "0611111111");
+  final _emailRespLegalController =
+      TextEditingController(text: "marc.dupont@mail.com");
   final _idRespLegalController = TextEditingController(text: "ID87654321");
 
-  // ----------------- Responsable financier -----------------
-  String civiliteRespFin = "Mr";
-  String qualiteRespFin = "Père";
+  String _civiliteRespFin = "Mr";
+  String _qualiteRespFin = "Père";
   final _nomRespFinController = TextEditingController(text: "DUPONT");
   final _prenomRespFinController = TextEditingController(text: "Marc");
-  final _dateNaissanceRespFinController = TextEditingController(text: "1975-01-01");
+  final _dateNaissanceRespFinController =
+      TextEditingController(text: "1975-01-01");
   final _lieuNaissanceRespFinController = TextEditingController(text: "Paris");
   final _paysRespFinController = TextEditingController(text: "France");
-  final _nationaliteRespFinController = TextEditingController(text: "Française");
-  final _adresseRespFinController = TextEditingController(text: "5 Allée des Palmiers");
+  final _nationaliteRespFinController =
+      TextEditingController(text: "Française");
+  final _adresseRespFinController =
+      TextEditingController(text: "5 Allée des Palmiers");
   final _villeRespFinController = TextEditingController(text: "Nice");
   final _codePostalRespFinController = TextEditingController(text: "06000");
-  final _telephoneRespFinController = TextEditingController(text: "0493111111");
-  final _emailRespFinController = TextEditingController(text: "marc.dupont@mail.com");
+  final _telephoneRespFinController =
+      TextEditingController(text: "0493111111");
+  final _emailRespFinController =
+      TextEditingController(text: "marc.dupont@mail.com");
   final _idRespFinController = TextEditingController(text: "ID87654321");
-
-  // ----------------- Études antérieures -----------------
-  List<Map<String, dynamic>> etudes = [
-    {
-      "annee": "2023-2024",
-      "etudeSuivie": "Terminales",
-      "etablissement": "Lycée Fénelon",
-      "diplome": "Baccalauréat",
-      "dateObtention": "2024-07-05"
-    },
-    {
-      "annee": "2022-2023",
-      "etudeSuivie": "Première",
-      "etablissement": "Lycée Fénelon",
-      "diplome": "N/A",
-      "dateObtention": "2023-07-05"
-    },
-  ];
 
   final _commentaireController = TextEditingController(
       text: "Année de césure en 2020-2021 pour un voyage humanitaire au Pérou.");
 
-  XFile? photoCandidat;
+  final List<Map<String, TextEditingController>> _etudes = [];
 
   @override
-  void dispose() {
-    _nomCandidatController.dispose();
-    _prenomCandidatController.dispose();
-    _dateNaissanceCandidatController.dispose();
-    _lieuNaissanceCandidatController.dispose();
-    _paysCandidatController.dispose();
-    _nationaliteCandidatController.dispose();
-    _adresseCandidatController.dispose();
-    _villeCandidatController.dispose();
-    _codePostalCandidatController.dispose();
-    _telephoneCandidatController.dispose();
-    _portableCandidatController.dispose();
-    _emailCandidatController.dispose();
-    _idCandidatController.dispose();
-
-    _nomRespLegalController.dispose();
-    _prenomRespLegalController.dispose();
-    _dateNaissanceRespLegalController.dispose();
-    _lieuNaissanceRespLegalController.dispose();
-    _paysRespLegalController.dispose();
-    _nationaliteRespLegalController.dispose();
-    _adresseRespLegalController.dispose();
-    _villeRespLegalController.dispose();
-    _codePostalRespLegalController.dispose();
-    _telephoneRespLegalController.dispose();
-    _portableRespLegalController.dispose();
-    _emailRespLegalController.dispose();
-    _idRespLegalController.dispose();
-
-    _nomRespFinController.dispose();
-    _prenomRespFinController.dispose();
-    _dateNaissanceRespFinController.dispose();
-    _lieuNaissanceRespFinController.dispose();
-    _paysRespFinController.dispose();
-    _nationaliteRespFinController.dispose();
-    _adresseRespFinController.dispose();
-    _villeRespFinController.dispose();
-    _codePostalRespFinController.dispose();
-    _telephoneRespFinController.dispose();
-    _emailRespFinController.dispose();
-    _idRespFinController.dispose();
-
-    _commentaireController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _addEtude(); // Add one row for previous studies initially
   }
 
-  Future pickImage() async {
+  void _addEtude() {
+    setState(() {
+      _etudes.add({
+        "annee": TextEditingController(),
+        "etudeSuivie": TextEditingController(),
+        "etablissement": TextEditingController(),
+        "diplome": TextEditingController(),
+        "dateObtention": TextEditingController(),
+      });
+    });
+  }
+
+  Future<void> _pickImage() async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
-        photoCandidat = image;
+        _photoCandidat = image;
       });
     }
   }
 
-  Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime(1900),
       lastDate: DateTime(2101),
-       builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: primaryColor,
-            ),
-          ),
-          child: child!,
-        );
-      },
     );
     if (picked != null) {
       setState(() {
@@ -168,393 +128,415 @@ class ConventionEtudeFormState extends State<ConventionEtudeForm> {
     }
   }
 
-  void _submitForm() {
+  void _generatePdf() async {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Demande en cours d\'une convention d\'étude...')),
-      );
-      // In a real app, you would save the data to a backend here
-      print('Form data submitted');
-      // Navigator.pop(context);
-    }
-  }
+      final pdf = pw.Document();
+      final ynovBlue = PdfColor.fromHex("#003366");
+      final grayDark = PdfColor.fromHex("#323232");
 
-  Future<Uint8List> generatePdf() async {
-    final pdf = pw.Document();
+      Uint8List? photoBytes;
+      if (_photoCandidat != null) {
+        photoBytes = await _photoCandidat!.readAsBytes();
+      }
 
-    final image = photoCandidat != null
-        ? pw.MemoryImage(await photoCandidat!.readAsBytes())
-        : null;
-
-    pdf.addPage(
-      pw.MultiPage(
-        pageFormat: PdfPageFormat.a4,
-        margin: const pw.EdgeInsets.all(20),
-        build: (context) => [
-          pw.Header(
-            level: 0,
-            child: pw.Text("CONVENTION D'ÉTUDE",
-                style: pw.TextStyle(
-                    fontSize: 22, fontWeight: pw.FontWeight.bold)),
-          ),
-          if (image != null)
-            pw.Align(
-              alignment: pw.Alignment.topRight,
-              child: pw.Container(
-                width: 80,
-                height: 100,
-                decoration: pw.BoxDecoration(
-                  border: pw.Border.all(color: PdfColors.blue, width: 1),
+      pdf.addPage(
+        pw.MultiPage(
+          pageFormat: PdfPageFormat.a4,
+          margin: const pw.EdgeInsets.all(15),
+          build: (context) => [
+            // Header
+            pw.Row(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                // pw.Image(pw.MemoryImage(ynovLogoBytes)), // Assuming you have Ynov logo in assets
+                pw.Expanded(
+                  child: pw.Container(
+                    height: 50,
+                    child: pw.FittedBox(
+                      child: pw.Text(
+                        "CONVENTION D'ÉTUDE",
+                        style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                          fontSize: 22,
+                          color: ynovBlue,
+                        ),
+                      ),
+                      alignment: pw.Alignment.center,
+                    ),
+                  ),
                 ),
-                child: pw.Image(image, fit: pw.BoxFit.cover),
-              ),
+                pw.Container(
+                  width: 30,
+                  height: 40,
+                  decoration: pw.BoxDecoration(
+                    border: pw.Border.all(color: ynovBlue, width: 1),
+                  ),
+                  child: photoBytes != null
+                      ? pw.Image(pw.MemoryImage(photoBytes), fit: pw.BoxFit.cover)
+                      : pw.Center(
+                          child: pw.Text("Photo",
+                              style: pw.TextStyle(
+                                  fontSize: 8, color: grayDark))),
+                ),
+              ],
             ),
-          pw.SizedBox(height: 20),
-          pw.Text("État civil du candidat",
-              style: pw.TextStyle(
-                  fontSize: 14,
-                  color: PdfColors.white,
-                  fontWeight: pw.FontWeight.bold,
-                  background: pw.BoxDecoration(color: PdfColors.blue))),
-          pw.SizedBox(height: 5),
-          pw.Bullet(text: "Nom : ${_nomCandidatController.text}"),
-          pw.Bullet(text: "Prénom : ${_prenomCandidatController.text}"),
-          pw.Bullet(
-              text:
-                  "Date de naissance : ${_dateNaissanceCandidatController.text}"),
-          pw.Bullet(text: "Lieu : ${_lieuNaissanceCandidatController.text} (${_paysCandidatController.text})"),
-          pw.Bullet(text: "Nationalité : ${_nationaliteCandidatController.text}"),
-          pw.Bullet(text: "Adresse : ${_adresseCandidatController.text}, ${_codePostalCandidatController.text} ${_villeCandidatController.text}"),
-          pw.Bullet(text: "Email : ${_emailCandidatController.text}"),
-          pw.Bullet(text: "Téléphone : ${_telephoneCandidatController.text} / ${_portableCandidatController.text}"),
-          pw.Bullet(text: "ID/Passeport : ${_idCandidatController.text}"),
-          pw.Bullet(text: "Civilité : $civiliteCandidat"),
+            pw.Divider(thickness: 2, color: ynovBlue),
+            pw.SizedBox(height: 15),
 
-          pw.SizedBox(height: 15),
-          pw.Text("État civil du responsable légal",
-              style: pw.TextStyle(
-                  fontSize: 14,
-                  color: PdfColors.white,
-                  fontWeight: pw.FontWeight.bold,
-                  background: pw.BoxDecoration(color: PdfColors.blue))),
-          pw.SizedBox(height: 5),
-          pw.Bullet(text: "Nom : ${_nomRespLegalController.text}"),
-          pw.Bullet(text: "Prénom : ${_prenomRespLegalController.text}"),
-          pw.Bullet(
-              text:
-                  "Date de naissance : ${_dateNaissanceRespLegalController.text}"),
-          pw.Bullet(text: "Lieu : ${_lieuNaissanceRespLegalController.text} (${_paysRespLegalController.text})"),
-          pw.Bullet(text: "Nationalité : ${_nationaliteRespLegalController.text}"),
-          pw.Bullet(text: "Adresse : ${_adresseRespLegalController.text}, ${_codePostalRespLegalController.text} ${_villeRespLegalController.text}"),
-          pw.Bullet(text: "Email : ${_emailRespLegalController.text}"),
-          pw.Bullet(text: "Téléphone : ${_telephoneRespLegalController.text} / ${_portableRespLegalController.text}"),
-          pw.Bullet(text: "ID/Passeport : ${_idRespLegalController.text}"),
-          pw.Bullet(text: "Civilité : $civiliteRespLegal"),
+            // Sections
+            _buildPdfSection("ÉTAT CIVIL DU CANDIDAT", [
+              {"label": "Nom & Prénom", "value": '${_nomCandidatController.text} ${_prenomCandidatController.text}'},
+              {"label": "Né(e) le", "value": _dateNaissanceCandidatController.text},
+              {"label": "à / Pays", "value": '${_lieuNaissanceCandidatController.text} (${_paysCandidatController.text})'},
+              {"label": "Nationalité", "value": _nationaliteCandidatController.text},
+              {"label": "ID/Passeport N°", "value": _idCandidatController.text},
+              {"label": "Civilité", "value": _civiliteCandidat},
+              {"label": "Adresse", "value": '${_adresseCandidatController.text}, ${_codePostalCandidatController.text} ${_villeCandidatController.text}'},
+              {"label": "Email", "value": _emailCandidatController.text},
+              {"label": "Tél/Port.", "value": '${_telephoneCandidatController.text} / ${_portableCandidatController.text}'},
+            ], ynovBlue, grayDark),
 
-          pw.SizedBox(height: 15),
-          pw.Text("État civil du responsable financier",
-              style: pw.TextStyle(
-                  fontSize: 14,
-                  color: PdfColors.white,
-                  fontWeight: pw.FontWeight.bold,
-                  background: pw.BoxDecoration(color: PdfColors.blue))),
-          pw.SizedBox(height: 5),
-          pw.Bullet(text: "Nom : ${_nomRespFinController.text}"),
-          pw.Bullet(text: "Prénom : ${_prenomRespFinController.text}"),
-          pw.Bullet(
-              text:
-                  "Date de naissance : ${_dateNaissanceRespFinController.text}"),
-          pw.Bullet(text: "Lieu : ${_lieuNaissanceRespFinController.text} (${_paysRespFinController.text})"),
-          pw.Bullet(text: "Nationalité : ${_nationaliteRespFinController.text}"),
-          pw.Bullet(text: "Adresse : ${_adresseRespFinController.text}, ${_codePostalRespFinController.text} ${_villeRespFinController.text}"),
-          pw.Bullet(text: "Email : ${_emailRespFinController.text}"),
-          pw.Bullet(text: "Téléphone : ${_telephoneRespFinController.text}"),
-          pw.Bullet(text: "ID/Passeport : ${_idRespFinController.text}"),
-          pw.Bullet(text: "Civilité : $civiliteRespFin"),
+            _buildPdfSection("ÉTAT CIVIL DU RESPONSABLE LÉGAL", [
+              {"label": "Nom & Prénom", "value": '${_nomRespLegalController.text} ${_prenomRespLegalController.text}'},
+              {"label": "Qualité", "value": _qualiteRespLegal},
+               {"label": "Né(e) le", "value": _dateNaissanceRespLegalController.text},
+              {"label": "à / Pays", "value": '${_lieuNaissanceRespLegalController.text} (${_paysRespLegalController.text})'},
+              {"label": "Nationalité", "value": _nationaliteRespLegalController.text},
+              {"label": "ID/Passeport N°", "value": _idRespLegalController.text},
+              {"label": "Adresse", "value": '${_adresseRespLegalController.text}, ${_codePostalRespLegalController.text} ${_villeRespLegalController.text}'},
+              {"label": "Email", "value": _emailRespLegalController.text},
+              {"label": "Tél/Port.", "value": '${_telephoneRespLegalController.text} / ${_portableRespLegalController.text}'},
+            ], ynovBlue, grayDark),
+            
+            _buildPdfSection("ÉTAT CIVIL DU RESPONSABLE FINANCIER", [
+               {"label": "Nom & Prénom", "value": '${_nomRespFinController.text} ${_prenomRespFinController.text}'},
+              {"label": "Qualité", "value": _qualiteRespFin},
+               {"label": "Né(e) le", "value": _dateNaissanceRespFinController.text},
+              {"label": "à / Pays", "value": '${_lieuNaissanceRespFinController.text} (${_paysRespFinController.text})'},
+              {"label": "Nationalité", "value": _nationaliteRespFinController.text},
+              {"label": "ID/Passeport N°", "value": _idRespFinController.text},
+              {"label": "Adresse", "value": '${_adresseRespFinController.text}, ${_codePostalRespFinController.text} ${_villeRespFinController.text}'},
+              {"label": "Email", "value": _emailRespFinController.text},
+              {"label": "Téléphone", "value": _telephoneRespFinController.text},
+            ], ynovBlue, grayDark),
 
-          pw.SizedBox(height: 15),
-          pw.Text("Études antérieures", style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-          pw.TableHelper.fromTextArray(
-            headers: ["Année", "Étude", "Établissement", "Diplôme", "Date"],
-            data: etudes
-                .map((e) => [
-                      e["annee"]!,
-                      e["etudeSuivie"]!,
-                      e["etablissement"]!,
-                      e["diplome"]!,
-                      e["dateObtention"]!
-                    ])
-                .toList(),
-          ),
+            // Previous Studies Table
+            _buildPdfEtudesTable(ynovBlue, grayDark),
 
-          pw.SizedBox(height: 15),
-          pw.Text("Commentaire : "),
-          pw.Text(_commentaireController.text),
-          pw.SizedBox(height: 40),
-          pw.Text("Signatures : "),
-          pw.Row(
-            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-            children: [
-              pw.Text("Signature du candidat"),
-              pw.Text("Signature du responsable légal"),
-            ],
-          )
-        ],
-      ),
-    );
+            // Comment
+            pw.SizedBox(height: 10),
+            _buildPdfSectionHeader("COMMENTAIRES", ynovBlue),
+            pw.Container(
+              padding: pw.EdgeInsets.all(8),
+              decoration: pw.BoxDecoration(
+                border: pw.Border.all(color: ynovBlue, width: 0.5),
+              ),
+              child: pw.Text(_commentaireController.text, style: pw.TextStyle(color: grayDark, fontSize: 9)),
+            ),
 
-    return pdf.save();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: _buildTheme(context),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            "Convention d'étude",
-            style: TextStyle(color: secondaryColor, fontWeight: FontWeight.w600, fontSize: 22),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 1,
-          shadowColor: mediumGray,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: secondaryColor),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Icon(Icons.school, color: primaryColor, size: 40),
+            // Signatures
+            pw.SizedBox(height: 40),
+            pw.Text("Fait à __________________________________, le ____ / ____ / ______"),
+            pw.SizedBox(height: 30),
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+              children: [
+                pw.Column(children: [
+                  pw.Container(width: 150, height: 1, color: grayDark),
+                  pw.SizedBox(height: 4),
+                  pw.Text("Signature du Candidat", style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                ]),
+                pw.Column(children: [
+                  pw.Container(width: 150, height: 1, color: grayDark),
+                  pw.SizedBox(height: 4),
+                  pw.Text("Signature du Responsable Légal", style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                ]),
+              ]
             )
           ],
         ),
-        body: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 15,
-                  offset: Offset(0, 4),
-                )
-              ]
-            ),
-            constraints: BoxConstraints(maxWidth: 900),
-            margin: EdgeInsets.all(16),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(32.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildSection(
-                      title: 'État civil du candidat',
-                      children: [
-                        _buildDropdownField('Civilité', civiliteCandidat, ['Mme', 'M.'], (val) => setState(() => civiliteCandidat = val!)),
-                        _buildTextField('Nom', _nomCandidatController),
-                        _buildTextField('Prénom', _prenomCandidatController),
-                        _buildDateField(context, 'Date de naissance', _dateNaissanceCandidatController),
-                        _buildTextField('Lieu de naissance', _lieuNaissanceCandidatController),
-                        _buildTextField('Pays', _paysCandidatController),
-                        _buildTextField('Nationalité', _nationaliteCandidatController),
-                        _buildTextField('Adresse', _adresseCandidatController, fullWidth: true),
-                        _buildTextField('Code Postal', _codePostalCandidatController, inputType: TextInputType.number),
-                        _buildTextField('Ville', _villeCandidatController),
-                        _buildTextField('Téléphone', _telephoneCandidatController, inputType: TextInputType.phone),
-                        _buildTextField('Portable', _portableCandidatController, inputType: TextInputType.phone),
-                        _buildTextField('Adresse E-mail', _emailCandidatController, inputType: TextInputType.emailAddress),
-                        _buildTextField('ID Candidat', _idCandidatController, isRequired: false),
-                      ],
-                    ),
-                    _buildSection(
-                      title: 'Responsable légal',
-                      children: [
-                        _buildDropdownField('Civilité', civiliteRespLegal, ['Mme', 'M.'], (val) => setState(() => civiliteRespLegal = val!)),
-                        _buildTextField('Qualité', TextEditingController(text: qualiteRespLegal)),
-                        _buildTextField('Nom', _nomRespLegalController),
-                        _buildTextField('Prénom', _prenomRespLegalController),
-                        _buildDateField(context, 'Date de naissance', _dateNaissanceRespLegalController),
-                        _buildTextField('Lieu de naissance', _lieuNaissanceRespLegalController),
-                        _buildTextField('Pays', _paysRespLegalController),
-                        _buildTextField('Nationalité', _nationaliteRespLegalController),
-                        _buildTextField('Adresse', _adresseRespLegalController, fullWidth: true),
-                        _buildTextField('Code Postal', _codePostalRespLegalController, inputType: TextInputType.number),
-                        _buildTextField('Ville', _villeRespLegalController),
-                        _buildTextField('Téléphone', _telephoneRespLegalController, inputType: TextInputType.phone),
-                        _buildTextField('Portable', _portableRespLegalController, inputType: TextInputType.phone),
-                        _buildTextField('Adresse E-mail', _emailRespLegalController, inputType: TextInputType.emailAddress),
-                        _buildTextField('ID Responsable', _idRespLegalController, isRequired: false),
-                      ],
-                    ),
-                    _buildSection(
-                      title: 'Responsable financier',
-                      children: [
-                        _buildDropdownField('Civilité', civiliteRespFin, ['Mme', 'M.'], (val) => setState(() => civiliteRespFin = val!)),
-                        _buildTextField('Qualité', TextEditingController(text: qualiteRespFin)),
-                        _buildTextField('Nom', _nomRespFinController),
-                        _buildTextField('Prénom', _prenomRespFinController),
-                        _buildDateField(context, 'Date de naissance', _dateNaissanceRespFinController),
-                        _buildTextField('Lieu de naissance', _lieuNaissanceRespFinController),
-                        _buildTextField('Pays', _paysRespFinController),
-                        _buildTextField('Nationalité', _nationaliteRespFinController),
-                        _buildTextField('Adresse', _adresseRespFinController, fullWidth: true),
-                        _buildTextField('Code Postal', _codePostalRespFinController, inputType: TextInputType.number),
-                        _buildTextField('Ville', _villeRespFinController),
-                        _buildTextField('Téléphone', _telephoneRespFinController, inputType: TextInputType.phone),
-                        _buildTextField('Adresse E-mail', _emailRespFinController, inputType: TextInputType.emailAddress),
-                        _buildTextField('ID Responsable', _idRespFinController, isRequired: false),
-                      ],
-                    ),
-                    _buildSection(
-                      title: 'Commentaires',
-                      singleColumn: true,
-                      children: [
-                        _buildTextField('Commentaires', _commentaireController, maxLines: 4, isRequired: false, fullWidth: true),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: ElevatedButton(
-                        onPressed: _submitForm,
-                        child: const Text("Générer PDF"),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+      );
+
+      await Printing.layoutPdf(
+          onLayout: (PdfPageFormat format) async => pdf.save());
+    }
+  }
+
+  pw.Widget _buildPdfSection(String title, List<Map<String, String>> data, PdfColor headerColor, PdfColor textColor) {
+    return pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        _buildPdfSectionHeader(title, headerColor),
+        pw.SizedBox(height: 5),
+        pw.Wrap(
+          spacing: 10,
+          runSpacing: 5,
+          children: data.map((item) => pw.Row(
+            mainAxisSize: pw.MainAxisSize.min,
+            children: [
+              pw.Text('${item["label"]}: ', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: textColor, fontSize: 9)),
+              pw.Text(item["value"]!, style: pw.TextStyle(color: textColor, fontSize: 9)),
+            ]
+          )).toList(),
         ),
+        pw.SizedBox(height: 10),
+      ]
+    );
+  }
+
+  pw.Widget _buildPdfSectionHeader(String title, PdfColor color) {
+    return pw.Container(
+      width: double.infinity,
+      padding: const pw.EdgeInsets.all(4),
+      decoration: pw.BoxDecoration(color: color),
+      child: pw.Text(
+        title,
+        style: pw.TextStyle(
+            fontWeight: pw.FontWeight.bold, color: PdfColors.white, fontSize: 10),
       ),
     );
   }
 
-  ThemeData _buildTheme(BuildContext context) {
-    return Theme.of(context).copyWith(
-        primaryColor: primaryColor,
-        colorScheme: Theme.of(context).colorScheme.copyWith(
-          primary: primaryColor,
-          secondary: secondaryColor,
-          error: errorColor,
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(color: mediumGray),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(color: primaryColor, width: 1.5),
-          ),
-          labelStyle: TextStyle(color: secondaryColor, fontWeight: FontWeight.w500),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: primaryColor,
-            foregroundColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-            textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
-        ),
-        textTheme: Theme.of(context).textTheme.apply(
-          fontFamily: 'Segoe UI',
-          bodyColor: secondaryColor,
-          displayColor: secondaryColor,
-        ),
-      );
+  pw.Widget _buildPdfEtudesTable(PdfColor headerColor, PdfColor textColor) {
+    final headers = ['Année Scolaire', 'Étude Suivie', 'Établissement', 'Diplôme', "Date d'obtention"];
+    final data = _etudes.map((etude) => [
+      etude['annee']!.text,
+      etude['etudeSuivie']!.text,
+      etude['etablissement']!.text,
+      etude['diplome']!.text,
+      etude['dateObtention']!.text,
+    ]).toList();
+
+    return pw.Table.fromTextArray(
+      headers: headers,
+      data: data,
+      headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: PdfColors.white, fontSize: 8),
+      headerDecoration: pw.BoxDecoration(color: headerColor),
+      cellStyle: pw.TextStyle(color: textColor, fontSize: 8),
+      cellAlignments: {
+        0: pw.Alignment.centerLeft,
+        1: pw.Alignment.centerLeft,
+        2: pw.Alignment.centerLeft,
+        3: pw.Alignment.centerLeft,
+        4: pw.Alignment.center,
+      },
+    );
   }
 
-  Widget _buildSection({required String title, required List<Widget> children, bool singleColumn = false}) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        border: Border.all(color: mediumGray.withOpacity(0.5)),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 24.0),
-            child: Text(
-              title,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: primaryColor),
-            ),
-          ),
-          singleColumn ? _buildSingleColumn(children) : _buildFormGrid(children),
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Générer une convention d'étude"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.picture_as_pdf),
+            onPressed: _generatePdf,
+            tooltip: "Générer le PDF",
+          )
         ],
       ),
-    );
-  }
-
-  Widget _buildSingleColumn(List<Widget> children) {
-    return Column(
-      children: children.map((child) => Padding(padding: EdgeInsets.only(bottom: 16), child: child)).toList(),
-    );
-  }
-
-  Widget _buildFormGrid(List<Widget> children) {
-    return LayoutBuilder(builder: (context, constraints) {
-      double itemWidth = (constraints.maxWidth / 2) - 12;
-      if (constraints.maxWidth < 600) { // Use single column on smaller screens
-        itemWidth = double.infinity;
-      }
-      return Wrap(
-        spacing: 24,
-        runSpacing: 16,
-        children: children.map((widget) {
-          if (widget is FormFieldWrapper && widget.fullWidth) {
-            return SizedBox(width: double.infinity, child: widget);
-          }
-          return SizedBox(width: itemWidth, child: widget);
-        }).toList(),
-      );
-    });
-  }
-
-  Widget _buildTextField(String label, TextEditingController controller, {TextInputType inputType = TextInputType.text, int maxLines = 1, bool isRequired = true, bool fullWidth = false}) {
-    return FormFieldWrapper(
-      fullWidth: fullWidth,
-      child: TextFormField(
-        controller: controller,
-        keyboardType: inputType,
-        maxLines: maxLines,
-        decoration: InputDecoration(labelText: label),
-        validator: (value) {
-          if (isRequired && (value == null || value.isEmpty)) {
-            return 'Ce champ est obligatoire';
-          }
-          return null;
-        },
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildSectionTitle("ÉTAT CIVIL DU CANDIDAT"),
+              _buildCandidatSection(),
+              const SizedBox(height: 20),
+              _buildSectionTitle("ÉTAT CIVIL DU RESPONSABLE LÉGAL"),
+              _buildResponsableSection(_civiliteRespLegal, _qualiteRespLegal, _nomRespLegalController, _prenomRespLegalController, _dateNaissanceRespLegalController, _lieuNaissanceRespLegalController, _paysRespLegalController, _nationaliteRespLegalController, _adresseRespLegalController, _codePostalRespLegalController, _villeRespLegalController, _telephoneRespLegalController, _portableRespLegalController, _emailRespLegalController, _idRespLegalController, (val) => setState(() => _civiliteRespLegal = val!), (val) => setState(() => _qualiteRespLegal = val!)),
+              const SizedBox(height: 20),
+              _buildSectionTitle("ÉTAT CIVIL DU RESPONSABLE FINANCIER"),
+               _buildResponsableSection(_civiliteRespFin, _qualiteRespFin, _nomRespFinController, _prenomRespFinController, _dateNaissanceRespFinController, _lieuNaissanceRespFinController, _paysRespFinController, _nationaliteRespFinController, _adresseRespFinController, _codePostalRespFinController, _villeRespFinController, _telephoneRespFinController, TextEditingController(), _emailRespFinController, _idRespFinController, (val) => setState(() => _civiliteRespFin = val!), (val) => setState(() => _qualiteRespFin = val!)),
+              const SizedBox(height: 20),
+              _buildSectionTitle("ÉTUDES ANTÉRIEURES"),
+              _buildEtudesSection(),
+              const SizedBox(height: 20),
+              _buildSectionTitle("COMMENTAIRES"),
+              _buildCommentaireSection(),
+              const SizedBox(height: 30),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.check),
+                label: const Text("Générer la convention"),
+                onPressed: _generatePdf,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  Widget _buildDateField(BuildContext context, String label, TextEditingController controller, {bool fullWidth = false}) {
-    return FormFieldWrapper(
-      fullWidth: fullWidth,
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: Text(
+        title,
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: primaryColor),
+      ),
+    );
+  }
+
+  Widget _buildCandidatSection() {
+    return Card(
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: [
+            _buildRadioGroup("Civilité", _civiliteCandidat, ["Mr", "Mme"], (val) => setState(() => _civiliteCandidat = val!)),
+            _buildTextField("Nom", _nomCandidatController),
+            _buildTextField("Prénom", _prenomCandidatController),
+            _buildDateField("Date de naissance", _dateNaissanceCandidatController),
+            _buildTextField("Lieu de naissance", _lieuNaissanceCandidatController),
+            _buildTextField("Pays", _paysCandidatController),
+            _buildTextField("Nationalité", _nationaliteCandidatController),
+            _buildTextField("Adresse", _adresseCandidatController, isFullWidth: true),
+            _buildTextField("Code Postal", _codePostalCandidatController),
+            _buildTextField("Ville", _villeCandidatController),
+            _buildTextField("Téléphone", _telephoneCandidatController),
+            _buildTextField("Portable", _portableCandidatController),
+            _buildTextField("Email", _emailCandidatController),
+            _buildTextField("ID/Passeport", _idCandidatController, isFullWidth: true),
+            ElevatedButton.icon(onPressed: _pickImage, icon: Icon(Icons.photo_camera), label: Text("Photo d'identité")),
+            if (_photoCandidat != null) Text(_photoCandidat!.name),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildResponsableSection(
+    String civilite, String qualite,
+    TextEditingController nom, TextEditingController prenom, TextEditingController dateNaissance,
+    TextEditingController lieuNaissance, TextEditingController pays, TextEditingController nationalite,
+    TextEditingController adresse, TextEditingController codePostal, TextEditingController ville,
+    TextEditingController telephone, TextEditingController portable, TextEditingController email,
+    TextEditingController id,
+    Function(String?) onCiviliteChanged, Function(String?) onQualiteChanged,
+  ) {
+     return Card(
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: [
+            _buildRadioGroup("Civilité", civilite, ["Mr", "Mme"], onCiviliteChanged),
+            _buildRadioGroup("Qualité", qualite, ["Père", "Mère", "Tuteur"], onQualiteChanged),
+            _buildTextField("Nom", nom),
+            _buildTextField("Prénom", prenom),
+            _buildDateField("Date de naissance", dateNaissance),
+            _buildTextField("Lieu de naissance", lieuNaissance),
+            _buildTextField("Pays", pays),
+            _buildTextField("Nationalité", nationalite),
+            _buildTextField("Adresse", adresse, isFullWidth: true),
+            _buildTextField("Code Postal", codePostal),
+            _buildTextField("Ville", ville),
+            _buildTextField("Téléphone", telephone),
+            _buildTextField("Portable", portable),
+            _buildTextField("Email", email),
+            _buildTextField("ID/Passeport", id, isFullWidth: true),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEtudesSection() {
+    return Card(
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ..._etudes.asMap().entries.map((entry) {
+              int idx = entry.key;
+              Map<String, TextEditingController> etude = entry.value;
+              return Column(
+                children: [
+                  Wrap(
+                    spacing: 16,
+                    runSpacing: 16,
+                    children: [
+                      _buildTextField("Année", etude['annee']!),
+                      _buildTextField("Étude Suivie", etude['etudeSuivie']!),
+                      _buildTextField("Établissement", etude['etablissement']!),
+                      _buildTextField("Diplôme", etude['diplome']!),
+                      _buildDateField("Date d'obtention", etude['dateObtention']!),
+                    ],
+                  ),
+                  if(idx < _etudes.length - 1) const Divider(height: 30),
+                ],
+              );
+            }).toList(),
+            const SizedBox(height: 10),
+            TextButton.icon(
+              icon: const Icon(Icons.add),
+              label: const Text("Ajouter une ligne"),
+              onPressed: _addEtude,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCommentaireSection() {
+    return Card(
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: _buildTextField(
+            "Si vous avez interrompu vos études, veuillez indiquer durée + raison",
+            _commentaireController,
+            isFullWidth: true,
+            maxLines: 4),
+      ),
+    );
+  }
+
+  Widget _buildTextField(String label, TextEditingController controller,
+      {bool isFullWidth = false, int maxLines = 1}) {
+    Widget textField = TextFormField(
+      controller: controller,
+      maxLines: maxLines,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Ce champ est obligatoire';
+        }
+        return null;
+      },
+    );
+    return isFullWidth ? textField : Flexible(child: textField);
+  }
+
+  Widget _buildDateField(String label, TextEditingController controller) {
+    return Flexible(
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
+          border: OutlineInputBorder(),
           suffixIcon: Icon(Icons.calendar_today),
         ),
         readOnly: true,
         onTap: () => _selectDate(context, controller),
-        validator: (value) {
+         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Ce champ est obligatoire';
           }
@@ -564,27 +546,30 @@ class ConventionEtudeFormState extends State<ConventionEtudeForm> {
     );
   }
 
-  Widget _buildDropdownField(String label, String currentValue, List<String> items, ValueChanged<String?> onChanged, {bool fullWidth = false}) {
-    return FormFieldWrapper(
-      fullWidth: fullWidth,
-      child: DropdownButtonFormField<String>(
-        value: currentValue,
-        decoration: InputDecoration(labelText: label),
-        items: items.map((item) => DropdownMenuItem(value: item, child: Text(item))).toList(),
-        onChanged: onChanged,
+  Widget _buildRadioGroup(
+      String label, String groupValue, List<String> items, Function(String?) onChanged) {
+    return Flexible(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+          Row(
+            children: items
+                .map((item) => Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Radio<String>(
+                          value: item,
+                          groupValue: groupValue,
+                          onChanged: onChanged,
+                        ),
+                        Text(item),
+                      ],
+                    ))
+                .toList(),
+          ),
+        ],
       ),
     );
-  }
-}
-
-// Helper widget to pass the fullWidth property through the widget tree
-class FormFieldWrapper extends StatelessWidget {
-  final Widget child;
-  final bool fullWidth;
-  const FormFieldWrapper({super.key, required this.child, this.fullWidth = false});
-
-  @override
-  Widget build(BuildContext context) {
-    return child;
   }
 }
