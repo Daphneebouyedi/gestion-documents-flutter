@@ -361,7 +361,7 @@ class ConventionEtudeFormState extends State<ConventionEtudeForm> {
               const SizedBox(height: 30),
               ElevatedButton.icon(
                 icon: const Icon(Icons.check),
-                label: const Text("Générer la convention"),
+                label: const Text("Demander la convention"),
                 onPressed: _generatePdf,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
